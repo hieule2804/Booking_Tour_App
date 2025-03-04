@@ -1,0 +1,109 @@
+package com.example.bookingtourproject.entity;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "tour")
+public class Tour {
+    @PrimaryKey(autoGenerate = true)
+    private int tourId;
+
+    @ColumnInfo(name = "tourName")
+    private String tourName;
+
+    @ColumnInfo(name = "description")
+    private String description;
+
+    @ColumnInfo(name = "price")
+    private double price;
+
+    @ColumnInfo(name = "startDate")
+    private String startDate;
+
+    @ColumnInfo(name = "endDate")
+    private String endDate;
+
+    @ColumnInfo(name = "image")
+    private String image;
+
+    @ColumnInfo(name = "guideId")
+    private int guideId;
+
+    // Constructor with all parameters
+    public Tour(int tourId, String tourName, String description, double price, String startDate, String endDate, String image, int guideId) {
+        this.tourId = tourId;
+        this.tourName = tourName;
+        this.description = description;
+        this.price = price;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.image = image;
+        this.guideId = guideId;
+    }
+
+    // Getters and Setters
+    public int getTourId() {
+        return tourId;
+    }
+
+    public void setTourId(int tourId) {
+        this.tourId = tourId;
+    }
+
+    public String getTourName() {
+        return tourName;
+    }
+
+    public void setTourName(String tourName) {
+        this.tourName = tourName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getGuideId() {
+        return guideId;
+    }
+
+    public void setGuideId(int guideId) {
+        this.guideId = guideId;
+    }
+}
