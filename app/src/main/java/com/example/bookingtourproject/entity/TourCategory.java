@@ -12,10 +12,14 @@ public class TourCategory {
     @ColumnInfo(name = "tourCategoryName")
     private String tourCategoryName;
 
+    @ColumnInfo(name = "categoryImage")
+    private String categoryImage; // New field for category image
+
     // Constructor with all parameters
-    public TourCategory(int tourCategoryId, String tourCategoryName) {
+    public TourCategory(int tourCategoryId, String tourCategoryName, String categoryImage) {
         this.tourCategoryId = tourCategoryId;
         this.tourCategoryName = tourCategoryName;
+        this.categoryImage = categoryImage;
     }
 
     // Getters and Setters
@@ -33,5 +37,13 @@ public class TourCategory {
 
     public void setTourCategoryName(String tourCategoryName) {
         this.tourCategoryName = tourCategoryName;
+    }
+
+    public String getCategoryImage() {
+        return categoryImage;
+    }
+
+    public void setCategoryImage(String categoryImage) {
+        this.categoryImage = categoryImage;
     }
 }
