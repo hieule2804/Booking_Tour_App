@@ -4,15 +4,25 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.bookingtourproject.entity.User;
+import com.example.bookingtourproject.entity.UserWithBookingTour;
+import com.example.bookingtourproject.entity.UserWithCart;
 
 import java.util.List;
 
 @Dao
 public interface UserDao {
+    @Transaction
+    @Query("SELECT * FROM user")
+    List<UserWithCart> getUserWithCarts();
 
+    // Truy vấn tất cả người dùng cùng với các booking tour của họ
+    @Transaction
+    @Query("SELECT * FROM user")
+    List<UserWithBookingTour> getUserWithBookingTours();
     // Insert a new user
     @Insert
     void insert(User user);

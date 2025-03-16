@@ -85,10 +85,9 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         ArrayList<Tour> tourList = new ArrayList<>();
-        tourList.add(new Tour(1,"Tour Han Quoc 6N5D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",101));
-        tourList.add(new Tour(2,"Tour Han Quoc 4N3D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",102));
-        tourList.add(new Tour(3,"Tour Han Quoc 5N4D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",103));
-
+        tourList.add(new Tour(1,"Tour Han Quoc 6N5D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc", 1));
+        tourList.add(new Tour(2,"Tour Han Quoc 4N3D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",2));
+        tourList.add(new Tour(3,"Tour Han Quoc 5N4D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",3));
         adapter2 = new PopularAdapter(tourList);
         recyclerViewPopularList.setAdapter(adapter2);
     }

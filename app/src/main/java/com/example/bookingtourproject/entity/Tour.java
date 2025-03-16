@@ -27,11 +27,11 @@ public class Tour {
     @ColumnInfo(name = "image")
     private String image;
 
-    @ColumnInfo(name = "guideId")
-    private int guideId;
+    @ColumnInfo(name = "tourCategoryId")  // Đổi tên thành 'tourCategoryId'
+    private int tourCategoryId;  // Thay vì categoryId
 
-    // Constructor with all parameters
-    public Tour(int tourId, String tourName, String description, double price, String startDate, String endDate, String image, int guideId) {
+    // Constructor with all parameters (bao gồm tourCategoryId)
+    public Tour(int tourId, String tourName, String description, double price, String startDate, String endDate, String image, int tourCategoryId) {
         this.tourId = tourId;
         this.tourName = tourName;
         this.description = description;
@@ -39,7 +39,7 @@ public class Tour {
         this.startDate = startDate;
         this.endDate = endDate;
         this.image = image;
-        this.guideId = guideId;
+        this.tourCategoryId = tourCategoryId;
     }
 
     // Getters and Setters
@@ -99,11 +99,12 @@ public class Tour {
         this.image = image;
     }
 
-    public int getGuideId() {
-        return guideId;
+    public int getTourCategoryId() {
+        return tourCategoryId;
     }
 
-    public void setGuideId(int guideId) {
-        this.guideId = guideId;
+    public void setTourCategoryId(int tourCategoryId) {
+        this.tourCategoryId = tourCategoryId;
     }
 }
+
