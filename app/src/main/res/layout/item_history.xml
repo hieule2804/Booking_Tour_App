@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+<!--    <ImageView-->
+<!--        android:id="@+id/imgHistoryView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/logo"-->
+<!--        />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+android:orientation="vertical"
+        >
+    <TextView
+        android:id="@+id/tourName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="TourName"
+        android:textSize="30dp"
+        />
+    <TextView
+        android:id="@+id/tourPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TourPrice"
+        android:textSize="30dp"
+        />
+        <TextView
+            android:id="@+id/tourDes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tour Description"
+            android:textSize="30dp"
+            />
+        <TextView
+            android:id="@+id/tourDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date "
+            android:textSize="30dp"
+            />
+    </LinearLayout>
+</LinearLayout>
+
+</androidx.cardview.widget.CardView>

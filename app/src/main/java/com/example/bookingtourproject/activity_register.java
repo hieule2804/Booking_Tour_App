@@ -76,6 +76,11 @@ public class activity_register extends AppCompatActivity {
             return;
         }
 
+        if (!CheckExist(email)) {
+            Toast.makeText(activity_register.this, "Email is existed ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Validate password length (at least 6 characters)
         if (password.length() < 6) {
             Toast.makeText(activity_register.this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show();
@@ -110,6 +115,14 @@ public class activity_register extends AppCompatActivity {
         }
     }
 
+    private boolean CheckExist(String email) {
+        User user = userDao.getUserByEmail(email);
+        if(user == null){
+            return true;
+        }
+        else return false;
+    }
+
     // Method to validate phone number format (starts with 09 or 03 and exactly 10 digits)
     private boolean isValidPhone(String phone) {
         return phone.matches("^(09|03)\\d{8}$");
@@ -118,7 +131,11 @@ public class activity_register extends AppCompatActivity {
 
     // Validate email format
     private boolean isValidEmail(String email) {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        User user = userDao.getUserByEmail(email);
+        if(Patterns.EMAIL_ADDRESS.matcher(email).matches() ){
+            return true;
+        }
+        else return false;
     }
 
 }

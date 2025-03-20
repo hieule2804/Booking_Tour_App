@@ -87,7 +87,10 @@ public class UserSettingActivity extends AppCompatActivity {
             Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (!CheckExist(email)) {
+            Toast.makeText(this, "Email is existed ", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (password.length() < 6) {
             Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show();
             return;
@@ -107,6 +110,13 @@ public class UserSettingActivity extends AppCompatActivity {
 
     private boolean isValidEmail(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+    private boolean CheckExist(String email) {
+        User user = userDao.getUserByEmail(email);
+        if(user == null){
+            return true;
+        }
+        else return false;
     }
     private boolean isValidPhone(String phone) {
         return phone.matches("^(09|03)\\d{8}$");

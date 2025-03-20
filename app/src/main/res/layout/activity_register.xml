@@ -17,30 +17,33 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            >
 
             <!-- Sign Up Title -->
+
+            <!-- Email Field -->
             <TextView
                 android:id="@+id/signUpText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
                 android:text="Sign Up"
+                android:textColor="@color/colorPrimary"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="24dp"/>
+             android:layout_gravity="center"
+                />
 
-            <!-- Email Field -->
             <TextView
                 android:id="@+id/emailLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Email"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="16sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="24dp"/>
+                android:layout_marginStart="24dp"
+
+                />
 
             <EditText
                 android:id="@+id/emailInput"
@@ -60,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Password"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="24dp"/>
@@ -83,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Full Name"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="24dp"/>
@@ -106,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phone"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="24dp"/>
@@ -131,7 +134,8 @@
                 android:text="I agree to the Terms of Service"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginTop="16dp"
-                android:layout_marginStart="24dp"/>
+                android:layout_gravity="center"
+                />
 
             <!-- Register Button -->
             <Button
@@ -155,7 +159,8 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="32dp" />
+                android:layout_marginBottom="32dp"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

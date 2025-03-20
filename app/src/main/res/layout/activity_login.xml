@@ -41,7 +41,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/logoImage"
-                android:layout_marginTop="32dp"/>
+                />
 
             <!-- Email Field -->
             <LinearLayout
@@ -49,7 +49,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp">
 
@@ -80,7 +79,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp">
 
@@ -113,7 +111,6 @@
                 android:id="@+id/passwordEye"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_eye"
                 app:layout_constraintTop_toBottomOf="@id/passwordInput"
@@ -126,7 +123,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="56dp"
                 android:layout_marginEnd="24dp"
                 android:background="@color/colorAccent"
                 android:padding="16dp"
