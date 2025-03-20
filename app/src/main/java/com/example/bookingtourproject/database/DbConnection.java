@@ -42,7 +42,7 @@ public abstract class DbConnection extends RoomDatabase {
             synchronized (DbConnection.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    DbConnection.class, "booking_tour_online")
+                                    DbConnection.class, "booking_tour_database")
                             .fallbackToDestructiveMigration()  // Xóa database cũ khi có thay đổi về schema
                             .allowMainThreadQueries()  // Cho phép truy vấn trên main thread (không nên dùng trong sản phẩm thật)
                             .addCallback(new RoomDatabase.Callback() {
@@ -100,44 +100,3 @@ public abstract class DbConnection extends RoomDatabase {
         return INSTANCE;
     }
 }
- // query data Tour
-// INSERT INTO tour (tourName, description, price, startDate, endDate, image, tourCategoryId)
-//VALUES
-//        ('Beach', 'Explore the beautiful beaches of Vietnam', 150.0, '2025-05-01', '2025-05-07', 'beach', 1),
-//('Cambodia', 'A cultural journey through the temples of Cambodia', 120.0, '2025-06-10', '2025-06-15', 'cambodia', 2),
-//        ('Bangkok', 'Experience the vibrant streets of Bangkok', 80.0, '2025-07-05', '2025-07-10', 'bangkok_streets', 3),
-//        ('Himalayan', 'Adventure through the Himalayan mountains', 200.0, '2025-08-20', '2025-08-27', 'himalayan', 4),
-//        ('Rome', 'Discover the ancient ruins of Rome', 250.0, '2025-09-10', '2025-09-15', 'rome', 5),
-//        ('Tokyo', 'Explore the modern wonders of Tokyo', 300.0, '2025-10-01', '2025-10-10', 'tokyo', 1),
-//        ('Mediterranean_cruise', 'A serene cruise through the Mediterranean', 350.0, '2025-11-01', '2025-11-07', 'mediterranean_cruise', 2),
-//        ('Bali_beach', 'Relax on the beaches of Bali', 180.0, '2025-12-15', '2025-12-20', 'bali_beach', 3),
-//        ('Great_wall_china', 'Explore the ancient Great Wall of China', 220.0, '2025-01-05', '2025-01-10', 'great_wall_china', 4),
-//        ('swiss_alps', 'A luxury trip to the Swiss Alps', 500.0, '2025-02-15', '2025-02-20', 'swiss_alps', 5);
-
-//query data history
-//INSERT INTO history (userId, tourId)
-//VALUES
-//        (1, 1),
-//(1, 2),
-//        (1, 3),
-//        (1, 4),
-//        (1, 5),
-//        (1, 6),
-//        (1, 7),
-//        (1, 8),
-//        (1, 9),
-//        (1, 10);
-
-//query tour review
-//INSERT INTO tourReview (tourId, userId, rating, comment)
-//VALUES
-//        (1, 1, 4.5, 'Great tour, had a wonderful time!'),
-//(2, 1, 4.0, 'Interesting experience, but a bit too long.'),
-//        (3, 1, 5.0, 'Absolutely amazing! The best trip ever.'),
-//        (4, 1, 3.5, 'Good tour, but could be improved with better guides.'),
-//        (5, 1, 4.5, 'Loved it, would recommend it to friends!'),
-//        (6, 1, 4.0, 'Nice experience, but the accommodation could be better.'),
-//        (7, 1, 4.8, 'Great trip, very well organized and enjoyable.'),
-//        (8, 1, 5.0, 'Unforgettable experience, highly recommend!'),
-//        (9, 1, 3.0, 'It was okay, not as exciting as I expected.'),
-//        (10, 1, 4.7, 'Very enjoyable, good balance of activities and relaxation.');
