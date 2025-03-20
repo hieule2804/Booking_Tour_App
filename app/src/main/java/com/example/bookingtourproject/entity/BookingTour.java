@@ -2,9 +2,13 @@ package com.example.bookingtourproject.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "bookingTour")
+@Entity(tableName = "bookingTour", foreignKeys = {
+        @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "userId", onDelete = ForeignKey.CASCADE),
+        @ForeignKey(entity = Tour.class, parentColumns = "tourId", childColumns = "tourId", onDelete = ForeignKey.CASCADE)
+})
 public class BookingTour {
     @PrimaryKey(autoGenerate = true)
     private int bookingTourId;
@@ -33,7 +37,6 @@ public class BookingTour {
     @ColumnInfo(name = "member")
     private int member;
 
-    // Constructor with all parameters
     public BookingTour(int bookingTourId, int tourId, int userId, String fullName, String phone, String email, String startDate, String endDate, int member) {
         this.bookingTourId = bookingTourId;
         this.tourId = tourId;
@@ -46,7 +49,6 @@ public class BookingTour {
         this.member = member;
     }
 
-    // Getters and Setters
     public int getBookingTourId() {
         return bookingTourId;
     }
@@ -119,3 +121,4 @@ public class BookingTour {
         this.member = member;
     }
 }
+

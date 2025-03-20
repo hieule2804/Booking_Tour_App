@@ -12,7 +12,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate;
 
 import com.example.bookingtourproject.Adapter.CategoryAdapter;
 import com.example.bookingtourproject.Adapter.PopularAdapter;
@@ -55,17 +54,59 @@ public class HomeActivity extends AppCompatActivity {
             username.setText("User not found");
         }
 
-        profile = findViewById(R.id.imageView);
-        profile.setOnClickListener(new View.OnClickListener() {
+// Bước 1: Tìm các View trong Activity của bạn
+        ImageView bottomBtn2 = findViewById(R.id.ic_bottom_btn2);
+        TextView textBtn2 = findViewById(R.id.text_bottom_btn2);
+        TextView seemore = findViewById(R.id.textView3);
+
+// Bước 2: Đặt OnClickListener cho ImageView và TextView
+        View.OnClickListener profileClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Tạo Intent để chuyển đến ViewProfileActivity
+                // Bước 3: Tạo Intent để chuyển đến ViewProfileActivity
                 Intent intent = new Intent(HomeActivity.this, ViewProfileActivity.class);
-                // Truyền email qua Intent
+
+                // Truyền email qua Intent (giả sử bạn đã có biến userEmail chứa email người dùng)
                 intent.putExtra("email", userEmail);
+
+                // Chuyển hướng đến Activity mới
+                startActivity(intent);
+            }
+        };
+
+// Đặt listener cho ImageView và TextView
+        bottomBtn2.setOnClickListener(profileClickListener);
+        textBtn2.setOnClickListener(profileClickListener);
+
+// Bước 1: Tìm các View trong Activity của bạn
+        LinearLayout homeBtn = findViewById(R.id.homeBtn);
+
+// Bước 2: Đặt OnClickListener cho LinearLayout
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Bước 3: Tạo Intent để chuyển đến HomeActivity
+                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+
+                // Đặt flag để xóa tất cả các Activity trước đó
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                // Chuyển hướng đến HomeActivity
                 startActivity(intent);
             }
         });
+        seemore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ListDetailActivity.class);
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                // Chuyển hướng đến HomeActivity
+                startActivity(intent);
+            }
+        });
+
 
         recyclerViewCategory();
         recyclerViewPopular();
@@ -73,14 +114,17 @@ public class HomeActivity extends AppCompatActivity {
 
     private void recyclerViewPopular() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewPopularList = findViewById(R.id.viewPopular);
+        recyclerViewPopularList = findViewById(R.id.viewTour);
         recyclerViewPopularList.setLayoutManager(linearLayoutManager);
 
         recyclerViewPopularList.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
-                outRect.right = 30; // khoảng cách giữa các item, có thể điều chỉnh giá trị này
+                outRect.right = 15; // khoảng cách giữa các item, có thể điều chỉnh giá trị này
+                outRect.left = 15;
+                outRect.top = 15;
+                outRect.bottom = 15;
             }
         });
 
@@ -104,6 +148,9 @@ public class HomeActivity extends AppCompatActivity {
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
                 outRect.right = 30; // khoảng cách giữa các item, có thể điều chỉnh giá trị này
+                outRect.left = 15;
+                outRect.top = 15;
+                outRect.bottom = 15;
             }
         });
 

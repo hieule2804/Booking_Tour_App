@@ -4,25 +4,15 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.bookingtourproject.entity.User;
-import com.example.bookingtourproject.entity.UserWithBookingTour;
-import com.example.bookingtourproject.entity.UserWithCart;
 
 import java.util.List;
 
 @Dao
 public interface UserDao {
-    @Transaction
-    @Query("SELECT * FROM user")
-    List<UserWithCart> getUserWithCarts();
 
-    // Truy vấn tất cả người dùng cùng với các booking tour của họ
-    @Transaction
-    @Query("SELECT * FROM user")
-    List<UserWithBookingTour> getUserWithBookingTours();
     // Insert a new user
     @Insert
     void insert(User user);
@@ -43,18 +33,23 @@ public interface UserDao {
     @Query("SELECT * FROM user")
     List<User> getAllUsers();
 
+    // Check if email is already taken
     @Query("SELECT EXISTS(SELECT * FROM user WHERE email = :email)")
     boolean isTaken(String email);
 
+    // User login validation
     @Query("SELECT EXISTS(SELECT * FROM user WHERE email = :email AND password = :password)")
     boolean login(String email, String password);
 
+    // Get user by email
     @Query("SELECT * FROM user WHERE email = :email")
     User getUserByEmail(String email);
 
+    // Get user by email and password
     @Query("SELECT * FROM user WHERE email = :email AND password = :password")
     User getUserByEmailAndPassword(String email, String password);
 
+    // Update user details by ID
     @Query("UPDATE user SET password = :password, fullName = :fullName, phone = :phone, email = :email, role = :role, address = :address WHERE id = :userId")
-    void updateUserById(int userId, String fullName, String email,String password, String phone, String role, String address);
+    void updateUserById(int userId, String fullName, String email, String password, String phone, String role, String address);
 }

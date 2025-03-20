@@ -4,12 +4,9 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.bookingtourproject.entity.Tour;
-import com.example.bookingtourproject.entity.TourWithCategory;
-import com.example.bookingtourproject.entity.TourWithReviews;
 
 import java.util.List;
 
@@ -30,14 +27,4 @@ public interface TourDao {
 
     @Query("SELECT * FROM tour")
     List<Tour> getAllTours();
-
-    // Truy vấn tất cả các tour cùng với danh mục của chúng
-    @Transaction
-    @Query("SELECT * FROM tour")
-    List<TourWithCategory> getToursWithCategory();
-
-    // Truy vấn tất cả các tour cùng với các đánh giá của chúng
-    @Transaction
-    @Query("SELECT * FROM tour")
-    List<TourWithReviews> getToursWithReviews();
 }

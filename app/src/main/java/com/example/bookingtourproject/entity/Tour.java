@@ -1,10 +1,14 @@
 package com.example.bookingtourproject.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tour")
+@Entity(tableName = "tour", foreignKeys = {
+        @ForeignKey(entity = TourCategory.class, parentColumns = "tourCategoryId", childColumns = "tourCategoryId", onDelete = ForeignKey.CASCADE)
+})
 public class Tour {
     @PrimaryKey(autoGenerate = true)
     private int tourId;
@@ -28,6 +32,7 @@ public class Tour {
     private String image;
 
     @ColumnInfo(name = "tourCategoryId")  // Đổi tên thành 'tourCategoryId'
+    @NonNull
     private int tourCategoryId;  // Thay vì categoryId
 
     // Constructor with all parameters (bao gồm tourCategoryId)
