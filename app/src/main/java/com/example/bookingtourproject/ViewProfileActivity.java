@@ -41,14 +41,14 @@ public class ViewProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-//        history.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////            Intent intent = new Intent(ViewProfileActivity.this ,HistoryActivity.class);
-////            intent.putExtra("email",email.getText().toString());
-////            startActivity(intent);
-////            }
-////        });
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            Intent intent = new Intent(ViewProfileActivity.this ,HistoryActivity.class);
+            intent.putExtra("email",email.getText().toString());
+            startActivity(intent);
+            }
+        });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

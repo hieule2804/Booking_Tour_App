@@ -23,7 +23,7 @@ public class UserSettingActivity extends AppCompatActivity {
     private EditText fullNameInput, emailInput, passwordInput, phoneInput, addressInput;
     private Button saveButton, cancelButton;
     private UserDao userDao;
-
+private String email1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,7 @@ public class UserSettingActivity extends AppCompatActivity {
         cancelButton = findViewById(R.id.cancelButton);
         userDao = DbConnection.getInstance(this).userDao();
 
-        String email1 = getIntent().getStringExtra("email");
+        email1 = getIntent().getStringExtra("email");
         emailInput.setText(email1);
         getDataUser(email1);
 
@@ -113,13 +113,16 @@ public class UserSettingActivity extends AppCompatActivity {
     }
     private boolean CheckExist(String email) {
         User user = userDao.getUserByEmail(email);
-        if(user == null){
+        if(user.getEmail().equals(email1)){
+            return true;
+        }
+        else if(user == null ){
             return true;
         }
         else return false;
     }
     private boolean isValidPhone(String phone) {
-        return phone.matches("^(09|03)\\d{8}$");
+        return phone.matches("^(09)\\d{8}$");
     }
     public void onBackPressed(View view) {
         Intent intent = new Intent(UserSettingActivity.this, ViewProfileActivity.class);
