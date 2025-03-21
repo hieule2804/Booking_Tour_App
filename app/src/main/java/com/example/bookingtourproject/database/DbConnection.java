@@ -62,7 +62,7 @@ public abstract class DbConnection extends RoomDatabase {
                                             TourReviewDao tourReviewDao = INSTANCE.tourReviewDao();
 
                                             // Chèn người dùng mẫu
-                                            User user1 = new User(0, "password123", "John Doe", "1234567890", "Hieu1@example.com", "user", "123 Street");
+                                            User user1 = new User(0, "123123", "John Doe", "1234567890", "Hieu1@gmail.com", "user", "123 Street");
                                             User user2 = new User(0, "password456", "Jane Smith", "0987654321", "jane.smith@example.com", "admin", "456 Avenue");
                                             User user3 = new User(0, "password789", "David Brown", "1122334455", "david.brown@example.com", "user", "789 Road");
                                             User user4 = new User(0, "password101", "Emily White", "2233445566", "emily.white@example.com", "user", "101 Parkway");
@@ -103,16 +103,16 @@ public abstract class DbConnection extends RoomDatabase {
  // query data Tour
 // INSERT INTO tour (tourName, description, price, startDate, endDate, image, tourCategoryId)
 //VALUES
-//        ('Tour A', 'Explore the beautiful beaches of Vietnam', 150.0, '2025-05-01', '2025-05-07', 'beach_vietnam.jpg', 1),
-//('Tour B', 'A cultural journey through the temples of Cambodia', 120.0, '2025-06-10', '2025-06-15', 'cambodia_temple.jpg', 2),
-//        ('Tour C', 'Experience the vibrant streets of Bangkok', 80.0, '2025-07-05', '2025-07-10', 'bangkok_streets.jpg', 3),
-//        ('Tour D', 'Adventure through the Himalayan mountains', 200.0, '2025-08-20', '2025-08-27', 'himalayan_adventure.jpg', 4),
-//        ('Tour E', 'Discover the ancient ruins of Rome', 250.0, '2025-09-10', '2025-09-15', 'rome_ruins.jpg', 5),
-//        ('Tour F', 'Explore the modern wonders of Tokyo', 300.0, '2025-10-01', '2025-10-10', 'tokyo_wonders.jpg', 1),
-//        ('Tour G', 'A serene cruise through the Mediterranean', 350.0, '2025-11-01', '2025-11-07', 'mediterranean_cruise.jpg', 2),
-//        ('Tour H', 'Relax on the beaches of Bali', 180.0, '2025-12-15', '2025-12-20', 'bali_beach.jpg', 3),
-//        ('Tour I', 'Explore the ancient Great Wall of China', 220.0, '2025-01-05', '2025-01-10', 'great_wall_china.jpg', 4),
-//        ('Tour J', 'A luxury trip to the Swiss Alps', 500.0, '2025-02-15', '2025-02-20', 'swiss_alps.jpg', 5);
+//        ('Beach', 'Explore the beautiful beaches of Vietnam', 150.0, '2025-05-01', '2025-05-07', 'beach', 1),
+//('Cambodia', 'A cultural journey through the temples of Cambodia', 120.0, '2025-06-10', '2025-06-15', 'cambodia', 2),
+//        ('Bangkok', 'Experience the vibrant streets of Bangkok', 80.0, '2025-07-05', '2025-07-10', 'bangkok_streets', 3),
+//        ('Himalayan', 'Adventure through the Himalayan mountains', 200.0, '2025-08-20', '2025-08-27', 'himalayan', 4),
+//        ('Rome', 'Discover the ancient ruins of Rome', 250.0, '2025-09-10', '2025-09-15', 'rome', 5),
+//        ('Tokyo', 'Explore the modern wonders of Tokyo', 300.0, '2025-10-01', '2025-10-10', 'tokyo', 1),
+//        ('Mediterranean_cruise', 'A serene cruise through the Mediterranean', 350.0, '2025-11-01', '2025-11-07', 'mediterranean_cruise', 2),
+//        ('Bali_beach', 'Relax on the beaches of Bali', 180.0, '2025-12-15', '2025-12-20', 'bali_beach', 3),
+//        ('Great_wall_china', 'Explore the ancient Great Wall of China', 220.0, '2025-01-05', '2025-01-10', 'great_wall_china', 4),
+//        ('swiss_alps', 'A luxury trip to the Swiss Alps', 500.0, '2025-02-15', '2025-02-20', 'swiss_alps', 5);
 
 //query data history
 //INSERT INTO history (userId, tourId)

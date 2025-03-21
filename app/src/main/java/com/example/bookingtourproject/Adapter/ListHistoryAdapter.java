@@ -41,14 +41,30 @@ private List<Tour> listBackup;
 
     @Override
     public void onBindViewHolder(@NonNull ListHistoryViewHolder holder, int position) {
-Tour tour = tourList.get(position);
-if(tour == null){return;}
-holder.tourName.setText(tour.getTourName());
-holder.tourPricer.setText(String.valueOf(tour.getPrice()));
-holder.tourDes.setText(tour.getDescription());
-holder.tourDate.setText(tour.getStartDate());
-holder.tourImage.setImageResource(R.drawable.logo);
+        Tour tour = tourList.get(position);
+        if (tour == null) {
+            return;
+        }
+
+        holder.tourName.setText(tour.getTourName());
+        holder.tourPricer.setText(String.valueOf(tour.getPrice()));
+        holder.tourDes.setText(tour.getDescription());
+        holder.tourDate.setText(tour.getStartDate());
+// lấy ảnh từ drawable
+        String imageName = tour.getImage();
+        if (imageName != null && !imageName.isEmpty()) {
+            int imageResourceId = holder.itemView.getContext().getResources().getIdentifier(imageName, "drawable", holder.itemView.getContext().getPackageName());
+
+            if (imageResourceId != 0) {
+                holder.tourImage.setImageResource(imageResourceId);
+            } else {
+                holder.tourImage.setImageResource(R.drawable.logo);
+            }
+        } else {
+            holder.tourImage.setImageResource(R.drawable.logo);
+        }
     }
+
 
 
     @Override
