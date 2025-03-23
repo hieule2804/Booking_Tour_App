@@ -94,8 +94,18 @@ public class ListDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        searchTourEditText = findViewById(R.id.searchtour); // ID của EditText bạn đã tạo
+// Cart icon & text (bottom_btn3 & text_bottom_btn3)
+        ImageView bottomBtn3 = findViewById(R.id.ic_bottom_btn3);
+        TextView textBtn3 = findViewById(R.id.text_bottom_btn3);
 
+        View.OnClickListener cartClickListener = view -> {
+            Intent intent = new Intent(ListDetailActivity.this, CartActivity.class);
+            intent.putExtra("email", getIntent().getStringExtra("email")); // ✅ truyền lại email nếu cần hiển thị tên user
+            startActivity(intent);
+        };
+        bottomBtn3.setOnClickListener(cartClickListener);
+        textBtn3.setOnClickListener(cartClickListener);
+        searchTourEditText = findViewById(R.id.searchtour); // ID của EditText bạn đã tạo
         searchTourEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

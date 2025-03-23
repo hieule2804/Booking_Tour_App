@@ -1,8 +1,10 @@
 package com.example.bookingtourproject.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,16 +16,22 @@ import com.example.bookingtourproject.entity.Cart;
 import com.example.bookingtourproject.entity.Tour;
 import com.example.se1753demoapplication.R;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private List<Cart> carts;
-    private CartDao cartDao;  // DAO để truy vấn bảng Tour
+    private CartDao cartDao;
+    private Set<Cart> selectedCarts = new HashSet<>(); // ✅ danh sách được chọn
+    private OnSelectionChangeListener listener;
 
-    public CartAdapter(List<Cart> carts, CartDao cartDao) {
+    public CartAdapter(List<Cart> carts, CartDao cartDao, OnSelectionChangeListener listener) {
         this.carts = carts;
         this.cartDao = cartDao;
+        this.listener = listener;
     }
 
     @NonNull
@@ -35,19 +43,37 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Lấy Cart ở vị trí hiện tại
         Cart cart = carts.get(position);
-
-        // Lấy Tour theo tourId từ Cart
         Tour tour = cartDao.getTourById(cart.getTourId());
 
-        // Bind dữ liệu vào các view
         if (tour != null) {
-            // Nếu bạn lưu tên tài nguyên hình ảnh trong DB
-            String imageName = tour.getImage(); // tên hình ảnh từ DB
-            int imgResId = getImageResourceId(imageName, holder.itemView.getContext());
+            int imgResId = getImageResourceId(tour.getImage(), holder.itemView.getContext());
 
-            holder.bind(tour.getTourName(), String.valueOf(tour.getPrice()), imgResId);
+            // Gán dữ liệu vào ViewHolder
+            holder.bind(
+                    tour.getTourName(),
+                    "$" + tour.getPrice(),
+                    tour.getStartDate() + " -> " + tour.getEndDate(),
+                    imgResId,
+                    selectedCarts.contains(cart)
+            );
+
+            // Xử lý sự kiện khi tick checkbox
+            holder.checkBox.setOnCheckedChangeListener(null); // Clear listener cũ
+            holder.checkBox.setChecked(selectedCarts.contains(cart));
+
+            holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedCarts.add(cart);
+                } else {
+                    selectedCarts.remove(cart);
+                }
+
+                // Gọi callback khi có thay đổi
+                if (listener != null) {
+                    listener.onSelectionChanged(new ArrayList<>(selectedCarts));
+                }
+            });
         }
     }
 
@@ -56,27 +82,45 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return carts.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public List<Cart> getSelectedCarts() {
+        return new ArrayList<>(selectedCarts);
+    }
 
-        TextView title, fee;
+    public interface OnSelectionChangeListener {
+        void onSelectionChanged(List<Cart> selectedItems);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title, fee, date;
         ImageView imgTour;
+        CheckBox checkBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             fee = itemView.findViewById(R.id.fee);
+            date = itemView.findViewById(R.id.date);
             imgTour = itemView.findViewById(R.id.imgtour);
+            checkBox = itemView.findViewById(R.id.checkbox);
         }
 
-        public void bind(String titleText, String feeText, int imgResId) {
+        public void bind(String titleText, String feeText, String dateText, int imgResId, boolean isChecked) {
             title.setText(titleText);
             fee.setText(feeText);
+            date.setText(dateText);
             imgTour.setImageResource(imgResId);
+            checkBox.setChecked(isChecked);
         }
     }
-
-    // Phương thức để chuyển đổi tên hình ảnh thành ID tài nguyên
-    private int getImageResourceId(String imageName, android.content.Context context) {
+    public void setCarts(List<Cart> newCarts) {
+        this.carts = newCarts;
+        notifyDataSetChanged();
+    }
+    public void clearSelection() {
+        selectedCarts.clear();
+        notifyDataSetChanged(); // cập nhật lại checkbox
+    }
+    private int getImageResourceId(String imageName, Context context) {
         return context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
     }
 }

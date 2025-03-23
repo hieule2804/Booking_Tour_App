@@ -14,9 +14,11 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.bookingtourproject.dao.CartDao;
 import com.example.bookingtourproject.dao.UserDao;
 import com.example.bookingtourproject.database.DbConnection;
 import com.example.bookingtourproject.entity.BookingTour;
+import com.example.bookingtourproject.entity.Cart;
 import com.example.bookingtourproject.entity.History;
 import com.example.bookingtourproject.entity.Tour;
 import com.example.bookingtourproject.entity.User;
@@ -84,7 +86,29 @@ public class BookingTourActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        // Cart icon & text (bottom_btn3 & text_bottom_btn3)
+        ImageView bottomBtn3 = findViewById(R.id.ic_bottom_btn3);
+        TextView textBtn3 = findViewById(R.id.text_bottom_btn3);
+
+        View.OnClickListener cartClickListener = view -> {
+            Intent intent = new Intent(BookingTourActivity.this, CartActivity.class);
+            intent.putExtra("email", getIntent().getStringExtra("email")); // ✅ truyền lại email nếu cần hiển thị tên user
+            startActivity(intent);
+        };
+
+        bottomBtn3.setOnClickListener(cartClickListener);
+        textBtn3.setOnClickListener(cartClickListener);
 //xử lí xong header và footer
+        int cartId = getIntent().getIntExtra("cartId", -1); // 👈 lấy cartId
+
+// ✅ Sau khi lưu Booking + History
+        if (cartId != -1) {
+            CartDao cartDao = DbConnection.getInstance(this).cartDao();
+            Cart cartToDelete = cartDao.getCartById(cartId);
+            if (cartToDelete != null) {
+                cartDao.deleteCart(cartToDelete);
+            }
+        }
 
         int tourId = getIntent().getIntExtra("tourId", -1);
 

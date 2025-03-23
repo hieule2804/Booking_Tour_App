@@ -97,6 +97,18 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        // Cart icon & text (bottom_btn3 & text_bottom_btn3)
+        ImageView bottomBtn3 = findViewById(R.id.ic_bottom_btn3);
+        TextView textBtn3 = findViewById(R.id.text_bottom_btn3);
+
+        View.OnClickListener cartClickListener = view -> {
+            Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+            intent.putExtra("email", getIntent().getStringExtra("email")); // ✅ truyền lại email nếu cần hiển thị tên user
+            startActivity(intent);
+        };
+
+        bottomBtn3.setOnClickListener(cartClickListener);
+        textBtn3.setOnClickListener(cartClickListener);
         seemore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

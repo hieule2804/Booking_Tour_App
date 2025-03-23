@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.example.bookingtourproject.dao.UserDao;
 import com.example.bookingtourproject.database.DbConnection;
+import com.example.bookingtourproject.entity.Cart;
 import com.example.bookingtourproject.entity.Tour;
 import com.example.bookingtourproject.entity.User;
 import com.example.se1753demoapplication.R;
@@ -91,6 +93,19 @@ public class TourDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        // Cart icon & text (bottom_btn3 & text_bottom_btn3)
+        ImageView bottomBtn3 = findViewById(R.id.ic_bottom_btn3);
+        TextView textBtn3 = findViewById(R.id.text_bottom_btn3);
+
+        View.OnClickListener cartClickListener = view -> {
+            Intent intent = new Intent(TourDetailActivity.this, CartActivity.class);
+            intent.putExtra("email", email); // ✅ truyền lại email nếu cần hiển thị tên user
+            startActivity(intent);
+        };
+
+        bottomBtn3.setOnClickListener(cartClickListener);
+        textBtn3.setOnClickListener(cartClickListener);
+
 //xử lí xong header và footer
 //xử lí nút booking
         Button bookTourBtn = findViewById(R.id.booking);
@@ -108,7 +123,20 @@ public class TourDetailActivity extends AppCompatActivity {
 //xử lí xong nút booking
         int tourId = getIntent().getIntExtra("tourId", -1);
         Tour tour = DbConnection.getInstance(this).tourDao().getTourById(tourId);
+//xử lí nút Addcart
+        Button addCartButton = findViewById(R.id.addcard); // ID trong layout của bạn
 
+        addCartButton.setOnClickListener(v -> {
+            if (user != null && tour != null) {
+                Cart cart = new Cart(0, user.getId(), tour.getTourId());
+                DbConnection.getInstance(this).cartDao().insertCart(cart);
+                Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Không thể thêm vào giỏ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//xử lí xong nút Addcart
         tourImg = findViewById(R.id.tourimg);
         tourTitle = findViewById(R.id.tourtitle);
         tourPrice = findViewById(R.id.tourprice);

@@ -199,6 +199,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
                     <ImageView
@@ -222,6 +223,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical"
                     android:visibility="visible">
 
@@ -246,6 +248,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
                     <ImageView

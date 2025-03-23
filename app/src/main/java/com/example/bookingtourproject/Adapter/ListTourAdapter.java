@@ -40,7 +40,7 @@ public class ListTourAdapter extends RecyclerView.Adapter<ListTourAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Tour currentTour = tour.get(position);
         holder.tilte.setText(currentTour.getTourName());
-        holder.fee.setText(String.valueOf(currentTour.getPrice()));
+        holder.fee.setText("$" + currentTour.getPrice());
 
         int drawableResourceId = holder.itemView.getResources()
                 .getIdentifier(currentTour.getImage(), "drawable", holder.itemView.getContext().getPackageName());

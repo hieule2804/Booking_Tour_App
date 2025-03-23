@@ -40,7 +40,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
         Tour currentTour = tour.get(position);
 
         holder.tilte.setText(currentTour.getTourName());
-        holder.fee.setText(String.valueOf(currentTour.getPrice()));
+        holder.fee.setText("$" + currentTour.getPrice());
 
         int drawableResourceId = holder.itemView.getResources()
                 .getIdentifier(currentTour.getImage(), "drawable", holder.itemView.getContext().getPackageName());
