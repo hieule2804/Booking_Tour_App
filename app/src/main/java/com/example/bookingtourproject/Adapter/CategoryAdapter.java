@@ -1,4 +1,4 @@
-package com.example.bookingtourproject.adapter;
+package com.example.bookingtourproject.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +18,15 @@ import java.util.ArrayList;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     ArrayList<TourCategory> tourCategories;
+    OnCategoryClickListener listener;
 
-    public CategoryAdapter(ArrayList<TourCategory> tourCategories) {
+    public interface OnCategoryClickListener {
+        void onCategoryClick(TourCategory category);
+    }
+
+    public CategoryAdapter(ArrayList<TourCategory> tourCategories, OnCategoryClickListener listener) {
         this.tourCategories = tourCategories;
+        this.listener = listener;
     }
 
     @Override
@@ -31,35 +37,25 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.categoryName.setText(tourCategories.get(position).getTourCategoryName());
-        String picUrl = "";
-        switch (position){
-            case 0:{
-                picUrl = "ic_japan";
-                break;
-            }case 1:{
-                picUrl = "ic_korea";
-                break;
-            }case 2:{
-                picUrl = "ic_vietnam";
-                break;
-            }case 3:{
-                picUrl = "ic_china";
-                break;
-            }
-        }
-        int drawableReourceId = holder.itemView.getResources()
-                .getIdentifier(picUrl,"drawable",
-                        holder.itemView.getContext().getPackageName());
+        TourCategory category = tourCategories.get(position);
+        holder.categoryName.setText(category.getTourCategoryName());
+
+        int drawableResourceId = holder.itemView.getResources()
+                .getIdentifier(category.getCategoryImage(), "drawable", holder.itemView.getContext().getPackageName());
 
         Glide.with(holder.itemView.getContext())
-                .load(drawableReourceId)
+                .load(drawableResourceId)
                 .into(holder.categoryPic);
+
+        // Xử lý khi click
+        holder.mainLayout.setOnClickListener(v -> {
+            listener.onCategoryClick(category);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return tourCategories.size(); // Sửa lại đây
+        return tourCategories.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,10 +65,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Khởi tạo các view trong ViewHolder
-            categoryName = itemView.findViewById(R.id.categoryName); // Sửa R.id.category_name theo đúng ID trong layout
-            categoryPic = itemView.findViewById(R.id.categoryPic); // Sửa R.id.category_pic theo đúng ID trong layout
-            mainLayout = itemView.findViewById(R.id.mainLayout); // Sửa R.id.main_layout theo đúng ID trong layout
+            categoryName = itemView.findViewById(R.id.categoryName);
+            categoryPic = itemView.findViewById(R.id.categoryPic);
+            mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }
 }
+

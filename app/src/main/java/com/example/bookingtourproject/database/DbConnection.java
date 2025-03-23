@@ -113,7 +113,7 @@ public abstract class DbConnection extends RoomDatabase {
 //        ('Bali_beach', 'Relax on the beaches of Bali', 180.0, '2025-12-15', '2025-12-20', 'bali_beach', 3),
 //        ('Great_wall_china', 'Explore the ancient Great Wall of China', 220.0, '2025-01-05', '2025-01-10', 'great_wall_china', 4),
 //        ('swiss_alps', 'A luxury trip to the Swiss Alps', 500.0, '2025-02-15', '2025-02-20', 'swiss_alps', 5);
-
+//
 //query data history
 //INSERT INTO history (userId, tourId)
 //VALUES
@@ -127,7 +127,7 @@ public abstract class DbConnection extends RoomDatabase {
 //        (1, 8),
 //        (1, 9),
 //        (1, 10);
-
+//
 //query tour review
 //INSERT INTO tourReview (tourId, userId, rating, comment)
 //VALUES

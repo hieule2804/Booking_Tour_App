@@ -3,7 +3,10 @@ package com.example.bookingtourproject;
 import android.content.Intent;  // Thêm import Intent
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;  // Thêm import View
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.bookingtourproject.adapter.CategoryAdapter;
-import com.example.bookingtourproject.adapter.PopularAdapter;
+import com.example.bookingtourproject.Adapter.CategoryAdapter;
+import com.example.bookingtourproject.Adapter.PopularAdapter;
 import com.example.bookingtourproject.dao.UserDao;
 import com.example.bookingtourproject.database.DbConnection;
 import com.example.bookingtourproject.entity.Tour;
@@ -52,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
             String fullName = user.getFullName();
             username.setText("Hello " + fullName);
         } else {
-            username.setText("User not found");
+            username.setText("Hello Booking");
         }
 
 // Bước 1: Tìm các View trong Activity của bạn
@@ -86,13 +89,9 @@ public class HomeActivity extends AppCompatActivity {
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Bước 3: Tạo Intent để chuyển đến HomeActivity
                 Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
-
-                // Đặt flag để xóa tất cả các Activity trước đó
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                // Chuyển hướng đến HomeActivity
+                intent.putExtra("email", getIntent().getStringExtra("email")); // ✅ truyền lại email
                 startActivity(intent);
             }
         });
@@ -106,6 +105,23 @@ public class HomeActivity extends AppCompatActivity {
                 // Chuyển hướng đến HomeActivity
                 startActivity(intent);
             }
+        });
+        EditText searchTour = findViewById(R.id.searchTourHome);
+
+        searchTour.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                    (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
+
+                String keyword = searchTour.getText().toString().trim();
+                if (!keyword.isEmpty()) {
+                    Intent intent = new Intent(HomeActivity.this, ListDetailActivity.class);
+                    intent.putExtra("searchKeyword", keyword); // Gửi từ khóa sang ListDetailActivity
+                    intent.putExtra("email", getIntent().getStringExtra("email")); // Gửi email nếu cần
+                    startActivity(intent);
+                }
+                return true;
+            }
+            return false;
         });
 
 
@@ -129,13 +145,21 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        // Lấy dữ liệu Tour từ database
         ArrayList<Tour> tourList = new ArrayList<>();
-        tourList.add(new Tour(1,"Tour Han Quoc 6N5D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc", 1));
-        tourList.add(new Tour(2,"Tour Han Quoc 4N3D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",2));
-        tourList.add(new Tour(3,"Tour Han Quoc 5N4D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",3));
-        adapter2 = new PopularAdapter(tourList);
+        // Giả sử bạn có một phương thức trong DAO để lấy tất cả các Tour
+        tourList.addAll(DbConnection.getInstance(this).tourDao().getAllTours());
+
+        adapter2 = new PopularAdapter(tourList, tour -> {
+            Intent intent = new Intent(HomeActivity.this, TourDetailActivity.class);
+            intent.putExtra("tourId", tour.getTourId());
+            intent.putExtra("email", getIntent().getStringExtra("email")); // Nếu bạn cần truyền email
+            startActivity(intent);
+        });
         recyclerViewPopularList.setAdapter(adapter2);
+
     }
+
 
 
     private void recyclerViewCategory() {
@@ -143,12 +167,10 @@ public class HomeActivity extends AppCompatActivity {
         recyclerViewCategoryList = findViewById(R.id.viewCategories);
         recyclerViewCategoryList.setLayoutManager(linearLayoutManager);
 
-        // Thêm ItemDecoration để tạo khoảng cách giữa các item
         recyclerViewCategoryList.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                outRect.right = 30; // khoảng cách giữa các item, có thể điều chỉnh giá trị này
+                outRect.right = 30;
                 outRect.left = 15;
                 outRect.top = 15;
                 outRect.bottom = 15;
@@ -156,13 +178,19 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         ArrayList<TourCategory> categoryList = new ArrayList<>();
-        categoryList.add(new TourCategory(1, "Japan", "ic_japan"));
-        categoryList.add(new TourCategory(2, "Korea", "ic_korea"));
-        categoryList.add(new TourCategory(3, "VietNam", "ic_vietnam"));
-        categoryList.add(new TourCategory(4, "China", "ic_china"));
+        categoryList.addAll(DbConnection.getInstance(this).tourCategoryDao().getAllTourCategories());
 
-        adapter = new CategoryAdapter(categoryList);
+        adapter = new CategoryAdapter(categoryList, category -> {
+            // Khi user click vào category -> chuyển sang ListDetailActivity
+            Intent intent = new Intent(HomeActivity.this, ListDetailActivity.class);
+            intent.putExtra("categoryId", category.getTourCategoryId()); // truyền ID
+            intent.putExtra("email", getIntent().getStringExtra("email")); // vẫn truyền email nếu cần
+            startActivity(intent);
+        });
+
         recyclerViewCategoryList.setAdapter(adapter);
     }
+
+
 
 }

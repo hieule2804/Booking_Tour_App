@@ -1,4 +1,4 @@
-package com.example.bookingtourproject.adapter;
+package com.example.bookingtourproject.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +18,15 @@ import java.util.ArrayList;
 
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
     ArrayList<Tour> tour;
+    public interface OnTourClickListener {
+        void onTourClick(Tour tour);
+    }
 
-    public PopularAdapter(ArrayList<Tour> tour) {
+    private OnTourClickListener listener;
+
+    public PopularAdapter(ArrayList<Tour> tour, OnTourClickListener listener) {
         this.tour = tour;
+        this.listener = listener;
     }
 
     @Override
@@ -31,17 +37,26 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tilte.setText(tour.get(position).getTourName());
-        holder.fee.setText(String.valueOf(tour.get(position).getPrice()));
+        Tour currentTour = tour.get(position);
 
-        int drawableReourceId = holder.itemView.getResources()
-                .getIdentifier(tour.get(position).getImage(),"drawable",
-                        holder.itemView.getContext().getPackageName());
+        holder.tilte.setText(currentTour.getTourName());
+        holder.fee.setText(String.valueOf(currentTour.getPrice()));
+
+        int drawableResourceId = holder.itemView.getResources()
+                .getIdentifier(currentTour.getImage(), "drawable", holder.itemView.getContext().getPackageName());
 
         Glide.with(holder.itemView.getContext())
-                .load(drawableReourceId)
+                .load(drawableResourceId)
                 .into(holder.imgtour);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onTourClick(currentTour);
+            }
+        });
     }
+
+
 
     @Override
     public int getItemCount() {
