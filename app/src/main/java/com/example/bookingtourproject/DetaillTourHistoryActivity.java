@@ -25,7 +25,7 @@ import com.example.se1753demoapplication.R;
 public class DetaillTourHistoryActivity extends AppCompatActivity {
 
     private ImageView imgTourDetail;
-    private TextView tvTourDetailName, tvTourDetailDescription, tvTourDetailPrice, tvTourDetailStartDate, tvTourDetailEndDate, tvBookingInfoTitle, tvBookingFullName, tvBookingPhone, tvBookingEmail, tvBookingMembers;
+    private TextView tvTourDetailName, tvTourDetailDescription, tvTourDetailPrice, tvTourDetailStartDate, tvTourDetailEndDate, tvBookingInfoTitle, tvBookingFullName, tvBookingPhone, tvBookingEmail;
     private String email;
     private String tourId;
 private TourDao tourDao;
@@ -72,7 +72,6 @@ private BookingTourDao bookingTourDao;
         tvBookingFullName.setText("Full Name :"+bookingTour.getFullName());
         tvBookingPhone.setText("Phone :"+bookingTour.getPhone());
         tvBookingEmail.setText("Email :"+bookingTour.getEmail());
-        tvBookingMembers.setText("Total Members :"+String.valueOf(bookingTour.getMember()));
 
         addInforTourDetail(tourId);
     }
@@ -108,7 +107,6 @@ private BookingTourDao bookingTourDao;
         tvBookingFullName = findViewById(R.id.tvBookingFullName);
         tvBookingPhone = findViewById(R.id.tvBookingPhone);
         tvBookingEmail = findViewById(R.id.tvBookingEmail);
-        tvBookingMembers = findViewById(R.id.tvBookingMembers);
     }
     public void onBackPressed(View view) {
         Intent intent = new Intent(DetaillTourHistoryActivity.this, HistoryActivity.class);

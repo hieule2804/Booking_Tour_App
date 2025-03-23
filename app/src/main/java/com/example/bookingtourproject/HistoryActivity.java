@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bookingtourproject.Adapter.ListHistoryAdapter;
+import com.example.bookingtourproject.adapter.ListHistoryAdapter;
 import com.example.bookingtourproject.dao.HistoryDao;
 import com.example.bookingtourproject.dao.TourDao;
 import com.example.bookingtourproject.dao.UserDao;

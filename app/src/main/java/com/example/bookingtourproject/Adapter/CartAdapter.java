@@ -1,4 +1,4 @@
-package com.example.bookingtourproject.Adapter;
+package com.example.bookingtourproject.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

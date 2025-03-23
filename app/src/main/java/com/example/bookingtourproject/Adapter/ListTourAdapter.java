@@ -1,5 +1,5 @@
 
-package com.example.bookingtourproject.Adapter;
+package com.example.bookingtourproject.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

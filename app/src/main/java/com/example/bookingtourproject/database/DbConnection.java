@@ -24,7 +24,7 @@ import com.example.bookingtourproject.entity.TourCategory;
 import com.example.bookingtourproject.entity.TourReview;
 import com.example.bookingtourproject.entity.User;
 
-@Database(entities = {User.class, Tour.class, Cart.class, BookingTour.class, History.class, TourCategory.class, TourReview.class}, version =12)
+@Database(entities = {User.class, Tour.class, Cart.class, BookingTour.class, History.class, TourCategory.class, TourReview.class}, version =13)
 public abstract class DbConnection extends RoomDatabase {
 
     private static DbConnection INSTANCE = null;
@@ -138,10 +138,10 @@ public abstract class DbConnection extends RoomDatabase {
 
 
 // insert BookingTor
-//INSERT INTO bookingTour (tourId, userId, fullName, phone, email, startDate, endDate, member)
+//INSERT INTO bookingTour (tourId, userId, fullName, phone, email, startDate, endDate)
 //VALUES
-//        (1, 1, 'John Doe', '123-456-789', 'john.doe@example.com', '2023-12-25', '2023-12-30', 2),
-//(2, 2, 'Jane Smith', '987-654-321', 'jane.smith@example.com', '2023-12-26', '2023-12-31', 3),
-//        (3, 3, 'Bob Johnson', '555-123-456', 'bob.johnson@example.com', '2023-12-27', '2023-12-31', 1),
-//        (4, 4, 'Alice Williams', '666-234-567', 'alice.williams@example.com', '2023-12-28', '2023-12-30', 4),
-//        (5, 5, 'Charlie Brown', '777-345-678', 'charlie.brown@example.com', '2023-12-29', '2023-12-31', 5);
+//        (1, 1, 'John Doe', '123-456-789', 'john.doe@example.com', '2023-12-25', '2023-12-30'),
+//(2, 2, 'Jane Smith', '987-654-321', 'jane.smith@example.com', '2023-12-26', '2023-12-31'),
+//        (3, 3, 'Bob Johnson', '555-123-456', 'bob.johnson@example.com', '2023-12-27', '2023-12-31'),
+//        (4, 4, 'Alice Williams', '666-234-567', 'alice.williams@example.com', '2023-12-28', '2023-12-30'),
+//        (5, 5, 'Charlie Brown', '777-345-678', 'charlie.brown@example.com', '2023-12-29', '2023-12-31');

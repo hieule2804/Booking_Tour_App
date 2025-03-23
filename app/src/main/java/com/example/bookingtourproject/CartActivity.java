@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bookingtourproject.Adapter.CartAdapter;
+import com.example.bookingtourproject.adapter.CartAdapter;
 import com.example.bookingtourproject.dao.CartDao;
 import com.example.bookingtourproject.dao.HistoryDao;
 import com.example.bookingtourproject.dao.UserDao;

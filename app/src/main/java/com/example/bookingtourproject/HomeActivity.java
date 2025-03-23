@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.bookingtourproject.Adapter.CategoryAdapter;
-import com.example.bookingtourproject.Adapter.PopularAdapter;
+import com.example.bookingtourproject.adapter.CategoryAdapter;
+import com.example.bookingtourproject.adapter.PopularAdapter;
 import com.example.bookingtourproject.dao.UserDao;
 import com.example.bookingtourproject.database.DbConnection;
 import com.example.bookingtourproject.entity.Tour;

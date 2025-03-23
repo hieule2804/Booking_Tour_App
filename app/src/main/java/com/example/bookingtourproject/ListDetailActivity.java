@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.bookingtourproject.Adapter.ListTourAdapter;
+import com.example.bookingtourproject.adapter.ListTourAdapter;
 import com.example.bookingtourproject.dao.UserDao;
 import com.example.bookingtourproject.database.DbConnection;
 import com.example.bookingtourproject.entity.Tour;
