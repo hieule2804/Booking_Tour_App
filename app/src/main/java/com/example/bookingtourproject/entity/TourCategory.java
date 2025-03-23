@@ -2,6 +2,7 @@ package com.example.bookingtourproject.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tourCategory")
@@ -18,9 +19,12 @@ public class TourCategory {
     // Constructor with all parameters
     public TourCategory(int tourCategoryId, String tourCategoryName, String categoryImage) {
         this.tourCategoryId = tourCategoryId;
-    public TourCategory( String tourCategoryName) {
         this.tourCategoryName = tourCategoryName;
         this.categoryImage = categoryImage;
+    }
+    @Ignore
+    public TourCategory(String tourCategoryName) {
+        this.tourCategoryName = tourCategoryName;
     }
 
     // Getters and Setters

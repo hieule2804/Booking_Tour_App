@@ -6,17 +6,9 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
-
-@Entity(
-        tableName = "tour",
-        foreignKeys = @ForeignKey(
-                entity = User.class, // Liên kết với bảng User
-                parentColumns = "id",
-                childColumns = "guideId",
-                onDelete = ForeignKey.CASCADE // Xóa User thì tour có hướng dẫn viên đó cũng bị xóa
-        )
-)
+@Entity(tableName = "tour", foreignKeys = {
+        @ForeignKey(entity = TourCategory.class, parentColumns = "tourCategoryId", childColumns = "tourCategoryId", onDelete = ForeignKey.CASCADE)
+})
 public class Tour {
     @PrimaryKey(autoGenerate = true)
     private int tourId;
@@ -39,24 +31,22 @@ public class Tour {
     @ColumnInfo(name = "image")
     private String image;
 
-    @ColumnInfo(name = "guideId", index = true)
-    private int guideId;
+    @ColumnInfo(name = "tourCategoryId")  // Đổi tên thành 'tourCategoryId'
+    @NonNull
+    private int tourCategoryId;  // Thay vì categoryId
 
-    @ColumnInfo(name = "categoryId")
-    private int categoryId;
-
-    public Tour(String tourName, String description, double price, String startDate, String endDate, String image, int guideId, int categoryId) {
+    // Constructor with all parameters (bao gồm tourCategoryId)
+    public Tour( String tourName, String description, double price, String startDate, String endDate, String image, int tourCategoryId) {
         this.tourName = tourName;
         this.description = description;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
         this.image = image;
-        this.guideId = guideId;
-        this.categoryId = categoryId;
+        this.tourCategoryId = tourCategoryId;
     }
 
-    // Getters & Setters
+    // Getters and Setters
     public int getTourId() {
         return tourId;
     }
@@ -120,21 +110,4 @@ public class Tour {
     public void setTourCategoryId(int tourCategoryId) {
         this.tourCategoryId = tourCategoryId;
     }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-    public String getCategoryName(List<TourCategory> categoryList) {
-        for (TourCategory category : categoryList) {
-            if (category.getTourCategoryId() == this.categoryId) {
-                return category.getTourCategoryName();
-            }
-        }
-        return "Unknown";
-    }
 }
-

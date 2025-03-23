@@ -28,7 +28,7 @@ public interface TourDao {
 
     @Query("SELECT * FROM tour")
     List<Tour> getAllTours();
-    @Query("SELECT * FROM Tour WHERE categoryId = (SELECT tourCategoryId FROM TourCategory WHERE tourCategoryName = :categoryName)")
+    @Query("SELECT * FROM Tour WHERE tourCategoryId = (SELECT tourCategoryId FROM TourCategory WHERE tourCategoryName = :categoryName)")
     List<Tour> getToursByCategory(String categoryName);
 
     @Query("SELECT * FROM tour WHERE tourCategoryID = :categoryId")

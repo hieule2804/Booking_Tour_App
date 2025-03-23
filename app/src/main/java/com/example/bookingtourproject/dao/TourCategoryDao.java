@@ -26,5 +26,6 @@ public interface TourCategoryDao {
     @Query("SELECT * FROM tourCategory")
     List<TourCategory> getAllCategories();
 
-
+    @Query("SELECT * FROM tourCategory")
+    List<TourCategory> getAllTourCategories();
 }
