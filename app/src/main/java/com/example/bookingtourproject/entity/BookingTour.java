@@ -120,5 +120,7 @@ public class BookingTour {
     public void setMember(int member) {
         this.member = member;
     }
+
+
 }
 

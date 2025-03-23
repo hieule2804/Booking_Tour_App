@@ -1,10 +1,12 @@
 package com.example.bookingtourproject.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,25 +14,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bookingtourproject.entity.Tour;
 import com.example.se1753demoapplication.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.ListHistoryViewHolder> {
-private List<Tour> tourList;
-private List<Tour> listBackup;
+    private List<Tour> tourList;
+    private List<Tour> listBackup;
+    private static OnItemClickListener onItemClickListener;
+
     public ListHistoryAdapter(List<Tour> tourList) {
         this.tourList = tourList;
         listBackup = tourList;
     }
-//search
-    public List<Tour> getBackup(){
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+    // Search
+    public List<Tour> getBackup() {
         return listBackup;
     }
-    public void filterList(List<Tour> filteredList){
+
+    public void filterList(List<Tour> filteredList) {
         tourList = filteredList;
         notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
@@ -50,7 +58,8 @@ private List<Tour> listBackup;
         holder.tourPricer.setText(String.valueOf(tour.getPrice()));
         holder.tourDes.setText(tour.getDescription());
         holder.tourDate.setText(tour.getStartDate());
-// lấy ảnh từ drawable
+
+        // Load image from drawable
         String imageName = tour.getImage();
         if (imageName != null && !imageName.isEmpty()) {
             int imageResourceId = holder.itemView.getContext().getResources().getIdentifier(imageName, "drawable", holder.itemView.getContext().getPackageName());
@@ -65,24 +74,35 @@ private List<Tour> listBackup;
         }
     }
 
-
-
     @Override
     public int getItemCount() {
         return tourList != null ? tourList.size() : 0;
     }
 
-    public static class ListHistoryViewHolder extends RecyclerView.ViewHolder {
+    public static class ListHistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView tourName,tourPricer,tourDes,tourDate;
+        private TextView tourName, tourPricer, tourDes, tourDate;
         private ImageView tourImage;
+
         public ListHistoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            tourName = itemView.findViewById(com.example.se1753demoapplication.R.id.tourName);
+            tourName = itemView.findViewById(R.id.tourName);
             tourPricer = itemView.findViewById(R.id.tourPrice);
             tourDes = itemView.findViewById(R.id.tourDes);
             tourDate = itemView.findViewById(R.id.tourDate);
             tourImage = itemView.findViewById(R.id.imgHistoryView);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, getAdapterPosition());
+            }
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int pos);
     }
 }

@@ -24,7 +24,7 @@ import com.example.se1753demoapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class HistoryActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, ListHistoryAdapter.OnItemClickListener {
     private HistoryDao historyDao;
     private TourDao tourDao;
     private UserDao userDao;
@@ -55,6 +55,7 @@ searchView = findViewById(R.id.search);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(listHistoryAdapter);
+        listHistoryAdapter.setOnItemClickListener(this);
         searchView.setOnQueryTextListener(this);
     }
 
@@ -100,4 +101,24 @@ searchView = findViewById(R.id.search);
           listHistoryAdapter.filterList(filterList);
       }
     }
+
+    @Override
+    public void onItemClick(View view, int pos) {
+        if (pos >= 0 && pos < listHistoryAdapter.getBackup().size()) {
+            if (email != null && !email.isEmpty()) {
+                Intent intent = new Intent(HistoryActivity.this, DetaillTourHistoryActivity.class);
+                String tourId = String.valueOf(listHistoryAdapter.getBackup().get(pos).getTourId());
+                intent.putExtra("tourId", tourId);
+                intent.putExtra("email", email);
+
+                startActivity(intent);
+            } else {
+                Toast.makeText(HistoryActivity.this, "Email không hợp lệ!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(HistoryActivity.this, "Vị trí không hợp lệ!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }
