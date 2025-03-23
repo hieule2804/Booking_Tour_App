@@ -1,5 +1,5 @@
-package com.example.bookingtourproject.adapter;
 
+package com.example.bookingtourproject.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +18,17 @@ import java.util.ArrayList;
 public class ListTourAdapter extends RecyclerView.Adapter<ListTourAdapter.ViewHolder> {
     ArrayList<Tour> tour;
 
-    public ListTourAdapter(ArrayList<Tour> tour) {
-        this.tour = tour;
+    public interface OnTourClickListener {
+        void onTourClick(Tour tour);
     }
+
+    private OnTourClickListener listener;
+
+    public ListTourAdapter(ArrayList<Tour> tour, OnTourClickListener listener) {
+        this.tour = tour;
+        this.listener = listener;
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,17 +38,24 @@ public class ListTourAdapter extends RecyclerView.Adapter<ListTourAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tilte.setText(tour.get(position).getTourName());
-        holder.fee.setText(String.valueOf(tour.get(position).getPrice()));
+        Tour currentTour = tour.get(position);
+        holder.tilte.setText(currentTour.getTourName());
+        holder.fee.setText("$" + currentTour.getPrice());
 
-        int drawableReourceId = holder.itemView.getResources()
-                .getIdentifier(tour.get(position).getImage(),"drawable",
-                        holder.itemView.getContext().getPackageName());
+        int drawableResourceId = holder.itemView.getResources()
+                .getIdentifier(currentTour.getImage(), "drawable", holder.itemView.getContext().getPackageName());
 
         Glide.with(holder.itemView.getContext())
-                .load(drawableReourceId)
+                .load(drawableResourceId)
                 .into(holder.imgtour);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onTourClick(currentTour);
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {

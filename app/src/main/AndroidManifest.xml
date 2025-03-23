@@ -13,10 +13,22 @@
         android:theme="@style/Theme.BookingTourProject"
         tools:targetApi="31">
         <activity
-            android:name="com.example.bookingtourproject.DetaillTourHistoryActivity"
+            android:name="com.example.bookingtourproject.BookingTourActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.bookingtourproject.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.bookingtourproject.TourDetailActivity"
             android:exported="false" />
         <activity
             android:name="com.example.bookingtourproject.HistoryActivity"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            tools:targetApi="31" />
+        <activity
+            android:name="com.example.bookingtourproject.ListDetailActivity"
             android:exported="false" />
         <activity
             android:name="com.example.bookingtourproject.UserSettingActivity"

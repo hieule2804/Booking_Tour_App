@@ -3,8 +3,11 @@ package com.example.bookingtourproject;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,26 +20,44 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bookingtourproject.adapter.PopularAdapter;
+
+import com.example.bookingtourproject.Adapter.ListTourAdapter;
+import com.example.bookingtourproject.dao.UserDao;
+import com.example.bookingtourproject.database.DbConnection;
 import com.example.bookingtourproject.entity.Tour;
+import com.example.bookingtourproject.entity.User;
 import com.example.se1753demoapplication.R;
 
 import java.util.ArrayList;
 
 public class ListDetailActivity extends AppCompatActivity {
-    private RecyclerView.Adapter adapter;
+    private ListTourAdapter adapter;
     private RecyclerView recyclerViewTourList;
+    private EditText searchTourEditText;
+    private TextView usernameTextView;
+    private UserDao userDao;
+    private ArrayList<Tour> allTours = new ArrayList<>();
+    private ArrayList<Tour> filteredTours = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_list_detail);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        usernameTextView = findViewById(R.id.name); // ID của TextView
+        userDao = DbConnection.getInstance(this).userDao();
+
+        String email = getIntent().getStringExtra("email");
+        User user = userDao.getUserByEmail(email);
+
+        if (user != null) {
+            String fullName = user.getFullName();
+            usernameTextView.setText("Hello " + fullName);
+        } else {
+            usernameTextView.setText("Hello Booking");
+        }
+
         // Bước 1: Tìm các View trong Activity của bạn
         ImageView bottomBtn2 = findViewById(R.id.ic_bottom_btn2);
         TextView textBtn2 = findViewById(R.id.text_bottom_btn2);
@@ -67,34 +88,67 @@ public class ListDetailActivity extends AppCompatActivity {
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Bước 3: Tạo Intent để chuyển đến HomeActivity
                 Intent intent = new Intent(ListDetailActivity.this, HomeActivity.class);
-
-                // Đặt flag để xóa tất cả các Activity trước đó
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                // Chuyển hướng đến HomeActivity
+                intent.putExtra("email", getIntent().getStringExtra("email")); // ✅ thêm dòng này
                 startActivity(intent);
             }
+        });
+// Cart icon & text (bottom_btn3 & text_bottom_btn3)
+        ImageView bottomBtn3 = findViewById(R.id.ic_bottom_btn3);
+        TextView textBtn3 = findViewById(R.id.text_bottom_btn3);
+
+        View.OnClickListener cartClickListener = view -> {
+            Intent intent = new Intent(ListDetailActivity.this, CartActivity.class);
+            intent.putExtra("email", getIntent().getStringExtra("email")); // ✅ truyền lại email nếu cần hiển thị tên user
+            startActivity(intent);
+        };
+        bottomBtn3.setOnClickListener(cartClickListener);
+        textBtn3.setOnClickListener(cartClickListener);
+        searchTourEditText = findViewById(R.id.searchtour); // ID của EditText bạn đã tạo
+        searchTourEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterTourList(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
 
 
 
         recyclerViewTourList();
     }
+
+    private void filterTourList(String query) {
+        filteredTours.clear();
+        for (Tour tour : allTours) {
+            if (tour.getTourName().toLowerCase().contains(query.toLowerCase())) {
+                filteredTours.add(tour);
+            }
+        }
+
+        adapter = new ListTourAdapter(filteredTours, tour -> {
+            Intent intent = new Intent(ListDetailActivity.this, TourDetailActivity.class);
+            intent.putExtra("tourId", tour.getTourId());
+            intent.putExtra("email", getIntent().getStringExtra("email"));
+            startActivity(intent);
+        });
+        recyclerViewTourList.setAdapter(adapter);
+    }
+
+
     private void recyclerViewTourList() {
-        // Lấy chiều rộng của màn hình
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
-
-        // Đo kích thước của một item (Lấy chiều rộng của item từ layout của RecyclerView)
         View itemView = LayoutInflater.from(this).inflate(R.layout.viewholder_popular, null);
-        itemView.measure(0, 0);  // Đo kích thước item sau khi inflating
-        int itemWidth = itemView.getMeasuredWidth(); // Lấy chiều rộng của item đã được đo
+        itemView.measure(0, 0);
+        int itemWidth = itemView.getMeasuredWidth();
+        int spanCount = Math.max(1, screenWidth / itemWidth);
 
-        // Tính số cột có thể hiển thị
-        int spanCount = Math.max(1, screenWidth / itemWidth); // Đảm bảo rằng số cột ít nhất là 1
-
-        // Sử dụng GridLayoutManager với số cột được tính toán
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount);
         recyclerViewTourList = findViewById(R.id.viewTour);
         recyclerViewTourList.setLayoutManager(gridLayoutManager);
@@ -102,24 +156,42 @@ public class ListDetailActivity extends AppCompatActivity {
         recyclerViewTourList.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                outRect.right = 15; // khoảng cách giữa các item
-                outRect.top = 15;    // Khoảng cách phía trên
+                outRect.right = 15;
+                outRect.top = 15;
                 outRect.left = 15;
                 outRect.bottom = 15;
             }
         });
 
-        ArrayList<Tour> tourList = new ArrayList<>();
-        tourList.add(new Tour(1,"Tour Han Quoc 6N5D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc", 1));
-        tourList.add(new Tour(2,"Tour Han Quoc 4N3D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",2));
-        tourList.add(new Tour(3,"Tour Han Quoc 5N4D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",3));
-        tourList.add(new Tour(4,"Tour Han Quoc 5N4D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",3));
-        tourList.add(new Tour(5,"Tour Han Quoc 5N4D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",3));
-        tourList.add(new Tour(6,"Tour Han Quoc 5N4D", "aaaaaa",2000, "2025-03-16","2025-03-19","ic_hanquoc",3));
-        adapter = new PopularAdapter(tourList);
+        allTours.clear();
+        filteredTours.clear();
+
+        int categoryId = getIntent().getIntExtra("categoryId", -1);
+        String searchKeyword = getIntent().getStringExtra("searchKeyword");
+
+        if (categoryId != -1) {
+            allTours.addAll(DbConnection.getInstance(this).tourDao().getToursByCategoryId(categoryId));
+        } else {
+            allTours.addAll(DbConnection.getInstance(this).tourDao().getAllTours());
+        }
+
+        if (searchKeyword != null && !searchKeyword.isEmpty()) {
+            for (Tour tour : allTours) {
+                if (tour.getTourName().toLowerCase().contains(searchKeyword.toLowerCase())) {
+                    filteredTours.add(tour);
+                }
+            }
+        } else {
+            filteredTours.addAll(allTours);
+        }
+
+        adapter = new ListTourAdapter(filteredTours, tour -> {
+            Intent intent = new Intent(ListDetailActivity.this, TourDetailActivity.class);
+            intent.putExtra("tourId", tour.getTourId());
+            intent.putExtra("email", getIntent().getStringExtra("email"));
+            startActivity(intent);
+        });
         recyclerViewTourList.setAdapter(adapter);
     }
-
 
 }
