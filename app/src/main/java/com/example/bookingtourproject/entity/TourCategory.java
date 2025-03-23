@@ -13,8 +13,7 @@ public class TourCategory {
     private String tourCategoryName;
 
     // Constructor with all parameters
-    public TourCategory(int tourCategoryId, String tourCategoryName) {
-        this.tourCategoryId = tourCategoryId;
+    public TourCategory( String tourCategoryName) {
         this.tourCategoryName = tourCategoryName;
     }
 

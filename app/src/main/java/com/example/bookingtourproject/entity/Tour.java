@@ -2,9 +2,20 @@ package com.example.bookingtourproject.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tour")
+import java.util.List;
+
+@Entity(
+        tableName = "tour",
+        foreignKeys = @ForeignKey(
+                entity = User.class, // Liên kết với bảng User
+                parentColumns = "id",
+                childColumns = "guideId",
+                onDelete = ForeignKey.CASCADE // Xóa User thì tour có hướng dẫn viên đó cũng bị xóa
+        )
+)
 public class Tour {
     @PrimaryKey(autoGenerate = true)
     private int tourId;
@@ -27,12 +38,13 @@ public class Tour {
     @ColumnInfo(name = "image")
     private String image;
 
-    @ColumnInfo(name = "guideId")
+    @ColumnInfo(name = "guideId", index = true)
     private int guideId;
 
-    // Constructor with all parameters
-    public Tour(int tourId, String tourName, String description, double price, String startDate, String endDate, String image, int guideId) {
-        this.tourId = tourId;
+    @ColumnInfo(name = "categoryId")
+    private int categoryId;
+
+    public Tour(String tourName, String description, double price, String startDate, String endDate, String image, int guideId, int categoryId) {
         this.tourName = tourName;
         this.description = description;
         this.price = price;
@@ -40,9 +52,10 @@ public class Tour {
         this.endDate = endDate;
         this.image = image;
         this.guideId = guideId;
+        this.categoryId = categoryId;
     }
 
-    // Getters and Setters
+    // Getters & Setters
     public int getTourId() {
         return tourId;
     }
@@ -105,5 +118,21 @@ public class Tour {
 
     public void setGuideId(int guideId) {
         this.guideId = guideId;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+    public String getCategoryName(List<TourCategory> categoryList) {
+        for (TourCategory category : categoryList) {
+            if (category.getTourCategoryId() == this.categoryId) {
+                return category.getTourCategoryName();
+            }
+        }
+        return "Unknown";
     }
 }
