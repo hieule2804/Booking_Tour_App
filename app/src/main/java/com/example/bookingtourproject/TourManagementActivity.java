@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +46,7 @@ public class TourManagementActivity extends AppCompatActivity {
         spinnerCategory = findViewById(R.id.spinnerCategory);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        ImageButton btnBack = findViewById(R.id.btnBack);
         DbConnection db = DbConnection.getInstance(this);
         tourCategoryDao = db.tourCategoryDao();
 
@@ -82,6 +83,7 @@ public class TourManagementActivity extends AppCompatActivity {
                 loadTours();
             });
         }).start();
+        btnBack.setOnClickListener(v -> finish());
         recyclerView.requestFocus();
     }
 

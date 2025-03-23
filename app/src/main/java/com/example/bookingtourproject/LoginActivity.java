@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }else{
                 // chuyển sang trang của admin
-                Intent intent = new Intent(LoginActivity.this, TourManagementActivity.class);
+                Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                 startActivity(intent);
                 finish();
             }
