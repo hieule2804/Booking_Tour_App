@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +43,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
-
         // Lấy email từ Intent
         String userEmail = getIntent().getStringExtra("email");
 
@@ -99,10 +101,12 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ListDetailActivity.class);
-
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                // Chuyển hướng đến HomeActivity
+                // ❌ Thiếu dòng này
+                // ✅ Thêm dòng dưới đây để truyền email sang ListDetailActivity
+                intent.putExtra("email", getIntent().getStringExtra("email"));
+
                 startActivity(intent);
             }
         });

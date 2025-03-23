@@ -198,6 +198,7 @@
                     android:id="@+id/homeBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0.2"
                     android:orientation="vertical">
 
@@ -223,6 +224,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
                     android:orientation="vertical"
+                    android:layout_marginTop="5dp"
                     android:visibility="visible">
 
                     <ImageView
@@ -246,6 +248,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
                     <ImageView

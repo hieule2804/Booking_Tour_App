@@ -34,10 +34,7 @@ public class BookingTour {
     @ColumnInfo(name = "endDate")
     private String endDate;
 
-    @ColumnInfo(name = "member")
-    private int member;
-
-    public BookingTour(int bookingTourId, int tourId, int userId, String fullName, String phone, String email, String startDate, String endDate, int member) {
+    public BookingTour(int bookingTourId, int tourId, int userId, String fullName, String phone, String email, String startDate, String endDate) {
         this.bookingTourId = bookingTourId;
         this.tourId = tourId;
         this.userId = userId;
@@ -46,7 +43,6 @@ public class BookingTour {
         this.email = email;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.member = member;
     }
 
     public int getBookingTourId() {
@@ -111,14 +107,6 @@ public class BookingTour {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
-    }
-
-    public int getMember() {
-        return member;
-    }
-
-    public void setMember(int member) {
-        this.member = member;
     }
 }
 

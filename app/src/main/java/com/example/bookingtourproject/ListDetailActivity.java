@@ -58,11 +58,6 @@ public class ListDetailActivity extends AppCompatActivity {
             usernameTextView.setText("Hello Booking");
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
         // Bước 1: Tìm các View trong Activity của bạn
         ImageView bottomBtn2 = findViewById(R.id.ic_bottom_btn2);
         TextView textBtn2 = findViewById(R.id.text_bottom_btn2);

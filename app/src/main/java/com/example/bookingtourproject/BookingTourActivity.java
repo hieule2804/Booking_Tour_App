@@ -4,45 +4,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.bookingtourproject.dao.UserDao;
 import com.example.bookingtourproject.database.DbConnection;
+import com.example.bookingtourproject.entity.BookingTour;
+import com.example.bookingtourproject.entity.History;
 import com.example.bookingtourproject.entity.Tour;
 import com.example.bookingtourproject.entity.User;
 import com.example.se1753demoapplication.R;
 
-public class TourDetailActivity extends AppCompatActivity {
-    private ImageView tourImg;
-    private TextView tourTitle, tourPrice, dateTour, descriptionTour;
+public class BookingTourActivity extends AppCompatActivity {
     private TextView usernameTextView;
     private UserDao userDao;
+    EditText fullNameInput, phoneInput, emailInput, startDateInput, endDateInput;
+    TextView nameText;
+    Button bookButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_tour_detail);
-//xử lí nút back về trang trước đó
-        ImageView backBtn = findViewById(R.id.imageView5);
+        setContentView(R.layout.activity_booking_tour);
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed(); // Hoặc finish();
-            }
-        });
-// xử lí xong
-
-//xử lí header và footer
+        //xử lí header và footer
         usernameTextView = findViewById(R.id.name); // TextView đang có ID là "name"
         userDao = DbConnection.getInstance(this).userDao();
 
@@ -64,7 +57,7 @@ public class TourDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Bước 3: Tạo Intent để chuyển đến ViewProfileActivity
-                Intent intent = new Intent(TourDetailActivity.this, ViewProfileActivity.class);
+                Intent intent = new Intent(BookingTourActivity.this, ViewProfileActivity.class);
 
                 // Truyền email qua Intent (giả sử bạn đã có biến userEmail chứa email người dùng)
                 intent.putExtra("email", userEmail);
@@ -85,47 +78,60 @@ public class TourDetailActivity extends AppCompatActivity {
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TourDetailActivity.this, HomeActivity.class);
+                Intent intent = new Intent(BookingTourActivity.this, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("email", getIntent().getStringExtra("email")); // ✅ truyền lại email
                 startActivity(intent);
             }
         });
 //xử lí xong header và footer
-//xử lí nút booking
-        Button bookTourBtn = findViewById(R.id.booking);
 
-        bookTourBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TourDetailActivity.this, BookingTourActivity.class);
-                intent.putExtra("tourId", getIntent().getIntExtra("tourId", -1));
-                intent.putExtra("email", getIntent().getStringExtra("email"));
-                startActivity(intent);
-            }
-        });
-
-//xử lí xong nút booking
         int tourId = getIntent().getIntExtra("tourId", -1);
+
+        fullNameInput = findViewById(R.id.fullNameInput);
+        phoneInput = findViewById(R.id.phoneInput);
+        emailInput = findViewById(R.id.emailInput);
+        startDateInput = findViewById(R.id.startDateInput);
+        endDateInput = findViewById(R.id.endDateInput);
+        bookButton = findViewById(R.id.booking);
+        ImageView tourImageView = findViewById(R.id.tourImageView);
+
+// Nếu ảnh là tên file trong drawable
         Tour tour = DbConnection.getInstance(this).tourDao().getTourById(tourId);
+        int imgRes = getResources().getIdentifier(tour.getImage(), "drawable", getPackageName());
+        Glide.with(this).load(imgRes).into(tourImageView);
 
-        tourImg = findViewById(R.id.tourimg);
-        tourTitle = findViewById(R.id.tourtitle);
-        tourPrice = findViewById(R.id.tourprice);
-        dateTour = findViewById(R.id.datetour);
-        descriptionTour = findViewById(R.id.descriptiontour);
-
-        if (tour != null) {
-            // Nếu ảnh là tên trong drawable folder
-            int imgRes = getResources().getIdentifier(tour.getImage(), "drawable", getPackageName());
-            Glide.with(this).load(imgRes).into(tourImg);
-
-            tourTitle.setText(tour.getTourName());
-            tourPrice.setText("$" + tour.getPrice());
-            String dateRange = tour.getStartDate() + " -> " + tour.getEndDate();
-            dateTour.setText(dateRange);
-            descriptionTour.setText(tour.getDescription());
+        if (tourId == -1 || email == null) {
+            Toast.makeText(this, "Thiếu dữ liệu", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
+        // ✅ Hiển thị dữ liệu vào các EditText
+        fullNameInput.setText(user.getFullName());
+        phoneInput.setText(user.getPhone());
+        emailInput.setText(user.getEmail());
+        startDateInput.setText(tour.getStartDate());
+        endDateInput.setText(tour.getEndDate());
 
-    }
+        // ✅ Khi ấn nút Booking
+        bookButton.setOnClickListener(v -> {
+            BookingTour booking = new BookingTour(
+                    0,
+                    tour.getTourId(),
+                    user.getId(),
+                    fullNameInput.getText().toString(),
+                    phoneInput.getText().toString(),
+                    emailInput.getText().toString(),
+                    startDateInput.getText().toString(),
+                    endDateInput.getText().toString()
+            );
+            DbConnection.getInstance(this).bookingTourDao().insertBooking(booking);
+
+            History history = new History(0, user.getId(), tour.getTourId());
+            DbConnection.getInstance(this).historyDao().insertHistory(history);
+
+            Toast.makeText(this, "Đặt tour thành công!", Toast.LENGTH_SHORT).show();
+            finish(); // Hoặc chuyển về Home/List
+        });
+    };
 }

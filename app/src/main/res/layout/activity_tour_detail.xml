@@ -86,7 +86,7 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:src="@drawable/back_list"
+                    android:src="@drawable/back"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -159,15 +159,15 @@
                     android:text="Add Cart" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:layout_margin="8dp"
-                    android:textSize="16sp"
-                    android:background="@drawable/light_pink_bg"
                     android:id="@+id/booking"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="Book Tour" />
+                    android:background="@drawable/light_pink_bg"
+                    android:text="Book Tour"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

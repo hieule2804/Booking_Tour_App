@@ -3,6 +3,7 @@ package com.example.bookingtourproject.database;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -23,12 +24,11 @@ import com.example.bookingtourproject.entity.TourCategory;
 import com.example.bookingtourproject.entity.TourReview;
 import com.example.bookingtourproject.entity.User;
 
-@Database(entities = {User.class, Tour.class, Cart.class, BookingTour.class, History.class, TourCategory.class, TourReview.class}, version = 6)
+@Database(entities = {User.class, Tour.class, Cart.class, BookingTour.class, History.class, TourCategory.class, TourReview.class}, version =12)
 public abstract class DbConnection extends RoomDatabase {
 
     private static DbConnection INSTANCE = null;
 
-    // Abstract DAO methods
     public abstract UserDao userDao();
     public abstract TourDao tourDao();
     public abstract CartDao cartDao();
@@ -43,52 +43,44 @@ public abstract class DbConnection extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     DbConnection.class, "booking_tour_online")
-                            .fallbackToDestructiveMigration()  // Xóa database cũ khi có thay đổi về schema
-                            .allowMainThreadQueries()  // Cho phép truy vấn trên main thread (không nên dùng trong sản phẩm thật)
+                            .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
                             .addCallback(new RoomDatabase.Callback() {
                                 @Override
-                                public void onCreate(SupportSQLiteDatabase db) {
+                                public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
-                                    // Chèn dữ liệu mẫu vào cơ sở dữ liệu
-                                    new Thread(() -> {
-                                        try {
-                                            // Tạo đối tượng DAO
-                                            UserDao userDao = INSTANCE.userDao();
-                                            TourCategoryDao tourCategoryDao = INSTANCE.tourCategoryDao();
-                                            TourDao tourDao = INSTANCE.tourDao();
-                                            BookingTourDao bookingTourDao = INSTANCE.bookingTourDao();
-                                            CartDao cartDao = INSTANCE.cartDao();
-                                            HistoryDao historyDao = INSTANCE.historyDao();
-                                            TourReviewDao tourReviewDao = INSTANCE.tourReviewDao();
 
-                                            // Chèn người dùng mẫu
-                                            User user1 = new User(0, "123123", "John Doe", "1234567890", "Hieu1@gmail.com", "user", "123 Street");
-                                            User user2 = new User(0, "password456", "Jane Smith", "0987654321", "jane.smith@example.com", "admin", "456 Avenue");
-                                            User user3 = new User(0, "password789", "David Brown", "1122334455", "david.brown@example.com", "user", "789 Road");
-                                            User user4 = new User(0, "password101", "Emily White", "2233445566", "emily.white@example.com", "user", "101 Parkway");
-                                            User user5 = new User(0, "password202", "Michael Green", "6677889900", "michael.green@example.com", "user", "202 Boulevard");
-                                            userDao.insert(user1);
-                                            userDao.insert(user2);
-                                            userDao.insert(user3);
-                                            userDao.insert(user4);
-                                            userDao.insert(user5);
+                                    // Tạo instance tạm để thêm dữ liệu
+                                    new Thread(() -> {
+                                        DbConnection tempDb = Room.databaseBuilder(context.getApplicationContext(),
+                                                        DbConnection.class, "booking_tour_online")
+                                                .allowMainThreadQueries()
+                                                .build();
+
+                                        try {
+                                            UserDao userDao = tempDb.userDao();
+                                            TourCategoryDao tourCategoryDao = tempDb.tourCategoryDao();
+
+                                            // Chèn user mẫu
+                                            userDao.insert(new User(0, "123123", "John Doe", "1234567890", "Hieu1@gmail.com", "user", "123 Street"));
+                                            userDao.insert(new User(0, "password456", "Jane Smith", "0987654321", "jane.smith@example.com", "admin", "456 Avenue"));
+                                            userDao.insert(new User(0, "password789", "David Brown", "1122334455", "david.brown@example.com", "user", "789 Road"));
+                                            userDao.insert(new User(0, "password101", "Emily White", "2233445566", "emily.white@example.com", "user", "101 Parkway"));
+                                            userDao.insert(new User(0, "password202", "Michael Green", "6677889900", "michael.green@example.com", "user", "202 Boulevard"));
+
                                             Log.d("DbCallback", "Users inserted");
 
-                                            // Chèn danh mục tour mẫu
-                                            TourCategory category1 = new TourCategory(0, "Adventure", "adventure_image_url");
-                                            TourCategory category2 = new TourCategory(0, "Relaxation", "relaxation_image_url");
-                                            TourCategory category3 = new TourCategory(0, "Cultural", "cultural_image_url");
-                                            TourCategory category4 = new TourCategory(0, "Beach", "beach_image_url");
-                                            TourCategory category5 = new TourCategory(0, "Nature", "nature_image_url");
-                                            tourCategoryDao.insert(category1);
-                                            tourCategoryDao.insert(category2);
-                                            tourCategoryDao.insert(category3);
-                                            tourCategoryDao.insert(category4);
-                                            tourCategoryDao.insert(category5);
-                                            Log.d("DbCallback", "Tour categories inserted");
+                                            // Chèn category tour mẫu
+                                            tourCategoryDao.insert(new TourCategory(0, "Adventure", "adventure_image_url"));
+                                            tourCategoryDao.insert(new TourCategory(0, "Relaxation", "relaxation_image_url"));
+                                            tourCategoryDao.insert(new TourCategory(0, "Cultural", "cultural_image_url"));
+                                            tourCategoryDao.insert(new TourCategory(0, "Beach", "beach_image_url"));
+                                            tourCategoryDao.insert(new TourCategory(0, "Nature", "nature_image_url"));
+
+                                            Log.d("DbCallback", "Categories inserted");
 
                                         } catch (Exception e) {
-                                            Log.e("DbCallback", "Error while inserting data: ", e);
+                                            Log.e("DbCallback", "Error inserting sample data: ", e);
                                         }
                                     }).start();
                                 }
@@ -100,6 +92,8 @@ public abstract class DbConnection extends RoomDatabase {
         return INSTANCE;
     }
 }
+
+
 // query data Tour
 // INSERT INTO tour (tourName, description, price, startDate, endDate, image, tourCategoryId)
 //VALUES
@@ -113,9 +107,9 @@ public abstract class DbConnection extends RoomDatabase {
 //        ('Bali_beach', 'Relax on the beaches of Bali', 180.0, '2025-12-15', '2025-12-20', 'bali_beach', 3),
 //        ('Great_wall_china', 'Explore the ancient Great Wall of China', 220.0, '2025-01-05', '2025-01-10', 'great_wall_china', 4),
 //        ('swiss_alps', 'A luxury trip to the Swiss Alps', 500.0, '2025-02-15', '2025-02-20', 'swiss_alps', 5);
-//
-//query data history
-//INSERT INTO history (userId, tourId)
+
+// query data history
+// INSERT INTO history (userId, tourId)
 //VALUES
 //        (1, 1),
 //(1, 2),
@@ -127,9 +121,9 @@ public abstract class DbConnection extends RoomDatabase {
 //        (1, 8),
 //        (1, 9),
 //        (1, 10);
-//
-//query tour review
-//INSERT INTO tourReview (tourId, userId, rating, comment)
+
+// query tour review
+// INSERT INTO tourReview (tourId, userId, rating, comment)
 //VALUES
 //        (1, 1, 4.5, 'Great tour, had a wonderful time!'),
 //(2, 1, 4.0, 'Interesting experience, but a bit too long.'),
