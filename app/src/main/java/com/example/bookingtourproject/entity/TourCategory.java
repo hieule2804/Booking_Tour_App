@@ -18,6 +18,7 @@ public class TourCategory {
     // Constructor with all parameters
     public TourCategory(int tourCategoryId, String tourCategoryName, String categoryImage) {
         this.tourCategoryId = tourCategoryId;
+    public TourCategory( String tourCategoryName) {
         this.tourCategoryName = tourCategoryName;
         this.categoryImage = categoryImage;
     }

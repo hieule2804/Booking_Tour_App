@@ -2,6 +2,7 @@ package com.example.bookingtourproject.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import lombok.AllArgsConstructor;
@@ -33,6 +34,16 @@ public class User {
     @ColumnInfo(name = "address")  // Add address field
     private String address;
 
+    @ColumnInfo(name = "image")
+    private String image;
+
+    @Ignore
+    public User(int id, String fullName, String image) {
+        this.id = id;
+        this.fullName = fullName;
+        this.image = image;
+    }
+
     public User(int id, String password, String fullName, String phone, String email, String role, String address) {
         this.id = id;
         this.password = password;
@@ -41,6 +52,14 @@ public class User {
         this.email = email;
         this.role = role;
         this.address = address;  // Set address in the constructor
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getId() {

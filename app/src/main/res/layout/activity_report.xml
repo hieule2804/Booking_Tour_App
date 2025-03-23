@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- Header: Nút Back và Tiêu đề -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <!-- Nút Back -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Back"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_back"
+           />
+
+        <!-- Tiêu đề "Reports" -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Reports"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+    <!-- Tab Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:layout_marginBottom="24dp"
+        android:elevation="4dp">
+
+        <Button
+            android:id="@+id/btnDashboard"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Dashboard"
+            android:textSize="14sp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/btnTour"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Tour"
+            android:textSize="14sp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/btnBooking"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Booking"
+            android:textSize="14sp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/btnUser"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="User"
+            android:textSize="14sp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/btnRevenue"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Revenue"
+            android:textSize="14sp"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:elevation="2dp" />
+
+    </LinearLayout>
+
+    <!-- Biểu đồ vòng tròn -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Tuần này -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progressThisWeek"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/circular_progress_drawable_green"
+                android:rotation="-90" />
+
+            <TextView
+                android:id="@+id/tvThisWeekPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-90dp"
+                android:text="0%"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Tuần này"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <!-- Tuần trước -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="10dp">
+
+            <ProgressBar
+                android:id="@+id/progressLastWeek"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:progressDrawable="@drawable/circular_progress_drawable_red"
+                android:progress="0"
+                android:max="100"
+                android:rotation="-90" />
+
+            <TextView
+                android:id="@+id/tvLastWeekPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="-90dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tuần trước"
+                android:textSize="16sp"
+                android:layout_marginTop="48dp" />
+
+        </LinearLayout>
+
+        <!-- Tháng trước -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/progressLastMonth"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:progressDrawable="@drawable/circular_progress_drawable_blue"
+                android:progress="0"
+                android:max="100"
+                android:rotation="-90" />
+
+            <TextView
+                android:id="@+id/tvLastMonthPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="-90dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tháng trước"
+                android:textSize="16sp"
+                android:layout_marginTop="48dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
