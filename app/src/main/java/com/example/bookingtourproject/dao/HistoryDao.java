@@ -19,4 +19,6 @@ public interface HistoryDao {
 
     @Query("SELECT * FROM history WHERE tourId = :tourId")
     List<History> getHistoryByTourId(int tourId);
+    @Insert
+    void insertHistory(History history);
 }

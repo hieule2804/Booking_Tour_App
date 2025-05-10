@@ -1,0 +1,54 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Nút Back -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="Back"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_back"
+         />
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tour Management"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <!-- Thanh tìm kiếm -->
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"
+        android:background="@android:color/white"
+        android:padding="8dp"/>
+
+    <!-- Spinner -->
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@android:drawable/btn_dropdown"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTours"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"
+        android:overScrollMode="always"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

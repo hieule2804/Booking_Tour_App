@@ -23,7 +23,7 @@ public class UserSettingActivity extends AppCompatActivity {
     private EditText fullNameInput, emailInput, passwordInput, phoneInput, addressInput;
     private Button saveButton, cancelButton;
     private UserDao userDao;
-
+private String email1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,7 @@ public class UserSettingActivity extends AppCompatActivity {
         cancelButton = findViewById(R.id.cancelButton);
         userDao = DbConnection.getInstance(this).userDao();
 
-        String email1 = getIntent().getStringExtra("email");
+        email1 = getIntent().getStringExtra("email");
         emailInput.setText(email1);
         getDataUser(email1);
 
@@ -87,7 +87,10 @@ public class UserSettingActivity extends AppCompatActivity {
             Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (!CheckExist(email)) {
+            Toast.makeText(this, "Email is existed ", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (password.length() < 6) {
             Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show();
             return;
@@ -108,8 +111,18 @@ public class UserSettingActivity extends AppCompatActivity {
     private boolean isValidEmail(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+    private boolean CheckExist(String email) {
+        User user = userDao.getUserByEmail(email);
+        if(user.getEmail().equals(email1)){
+            return true;
+        }
+        else if(user == null ){
+            return true;
+        }
+        else return false;
+    }
     private boolean isValidPhone(String phone) {
-        return phone.matches("^(09|03)\\d{8}$");
+        return phone.matches("^(09)\\d{8}$");
     }
     public void onBackPressed(View view) {
         Intent intent = new Intent(UserSettingActivity.this, ViewProfileActivity.class);

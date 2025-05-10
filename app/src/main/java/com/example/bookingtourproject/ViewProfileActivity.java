@@ -19,7 +19,7 @@ import com.example.se1753demoapplication.R;
 
 public class ViewProfileActivity extends AppCompatActivity {
 
-    private TextView fullname, email;
+    private TextView fullname, email,address;
     private Button setting, history, logout;
     private UserDao userDao;
 
@@ -41,13 +41,14 @@ public class ViewProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-//        history.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////            Intent intent = new Intent(ViewProfileActivity.this ,UserHistory.class);
-////            startActivity(intent);
-//            }
-//        });
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            Intent intent = new Intent(ViewProfileActivity.this ,HistoryActivity.class);
+            intent.putExtra("email",email.getText().toString());
+            startActivity(intent);
+            }
+        });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +60,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
 //
     private void getDataUser() {
-        String email1 = getIntent().getStringExtra("email");  // Ensure you're passing the correct key
+        String email1 = getIntent().getStringExtra("email");
 
         if (email1 != null) {
             User user = userDao.getUserByEmail(email1);
@@ -67,6 +68,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                 String fullnameUser = user.getFullName();
                 fullname.setText(fullnameUser);
                 email.setText(email1);
+                address.setText("Address :" + user.getAddress());
             } else {
                 email.setText("User not found");
             }
@@ -78,6 +80,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         fullname = findViewById(R.id.fullNameProfile);
         email = findViewById(R.id.emailprofile);
         setting = findViewById(R.id.settingButton);
+        address = findViewById(R.id.addressProfile);
         history = findViewById(R.id.historyButton);
         logout = findViewById(R.id.logoutButton);
 

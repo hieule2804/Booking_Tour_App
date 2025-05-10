@@ -25,6 +25,10 @@ public interface BookingTourDao {
     @Query("SELECT * FROM bookingTour WHERE userId = :userId")
     List<BookingTour> getBookingToursByUserId(int userId);
 
+    @Insert
+    void insertBooking(BookingTour booking);
     @Query("SELECT * FROM bookingTour WHERE tourId = :tourId")
     List<BookingTour> getBookingToursByTourId(int tourId);
+    @Query("SELECT * FROM bookingTour WHERE tourId = :i AND userId = :id")
+    BookingTour getBookingTourByTourIdAndUserId(int i, int id);
 }

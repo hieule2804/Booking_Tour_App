@@ -1,10 +1,14 @@
 package com.example.bookingtourproject.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tour")
+@Entity(tableName = "tour", foreignKeys = {
+        @ForeignKey(entity = TourCategory.class, parentColumns = "tourCategoryId", childColumns = "tourCategoryId", onDelete = ForeignKey.CASCADE)
+})
 public class Tour {
     @PrimaryKey(autoGenerate = true)
     private int tourId;
@@ -27,19 +31,19 @@ public class Tour {
     @ColumnInfo(name = "image")
     private String image;
 
-    @ColumnInfo(name = "guideId")
-    private int guideId;
+    @ColumnInfo(name = "tourCategoryId")  // Đổi tên thành 'tourCategoryId'
+    @NonNull
+    private int tourCategoryId;  // Thay vì categoryId
 
-    // Constructor with all parameters
-    public Tour(int tourId, String tourName, String description, double price, String startDate, String endDate, String image, int guideId) {
-        this.tourId = tourId;
+    // Constructor with all parameters (bao gồm tourCategoryId)
+    public Tour( String tourName, String description, double price, String startDate, String endDate, String image, int tourCategoryId) {
         this.tourName = tourName;
         this.description = description;
         this.price = price;
         this.startDate = startDate;
         this.endDate = endDate;
         this.image = image;
-        this.guideId = guideId;
+        this.tourCategoryId = tourCategoryId;
     }
 
     // Getters and Setters
@@ -99,11 +103,11 @@ public class Tour {
         this.image = image;
     }
 
-    public int getGuideId() {
-        return guideId;
+    public int getTourCategoryId() {
+        return tourCategoryId;
     }
 
-    public void setGuideId(int guideId) {
-        this.guideId = guideId;
+    public void setTourCategoryId(int tourCategoryId) {
+        this.tourCategoryId = tourCategoryId;
     }
 }

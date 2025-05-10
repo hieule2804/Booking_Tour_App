@@ -2,9 +2,12 @@ package com.example.bookingtourproject.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "cart")
+@Entity(tableName = "cart", foreignKeys = {
+        @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "userId", onDelete = ForeignKey.CASCADE)
+})
 public class Cart {
     @PrimaryKey(autoGenerate = true)
     private int cartId;

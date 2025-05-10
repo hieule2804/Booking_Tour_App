@@ -27,4 +27,7 @@ public interface TourReviewDao {
 
     @Query("SELECT * FROM tourReview WHERE userId = :userId")
     List<TourReview> getReviewsByUserId(int userId);
+
+    @Query("SELECT * FROM tourReview")
+    List<TourReview> getAllReviews();
 }

@@ -105,9 +105,9 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }else{
                 // chuyển sang trang của admin
-//                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//                startActivity(intent);
-//                finish();
+                Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                startActivity(intent);
+                finish();
             }
         } else {
             Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
